@@ -7,7 +7,7 @@ import com.example.soporte.exceptions.RepositoryAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public abstract class Controller{
+public class Controller{
     protected <T> ResponseEntity<T> okResponse(T object) {
         return new ResponseEntity<>(object, HttpStatus.OK);
     }
@@ -16,15 +16,15 @@ public abstract class Controller{
         return new ResponseEntity<>(object, HttpStatus.CREATED);
     }
 
-    protected <T> ResponseEntity<T> notFoundResponse(T object) {
+    private <T> ResponseEntity<T> notFoundResponse(T object) {
         return new ResponseEntity<>(object, HttpStatus.NOT_FOUND);
     }
 
-    protected <T> ResponseEntity<T> badRequestResponse(T object) {
+    private <T> ResponseEntity<T> badRequestResponse(T object) {
         return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
     }
 
-    protected <T> ResponseEntity<T> internalServerErrorResponse(T object) {
+    private <T> ResponseEntity<T> internalServerErrorResponse(T object) {
         return new ResponseEntity<>(object, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

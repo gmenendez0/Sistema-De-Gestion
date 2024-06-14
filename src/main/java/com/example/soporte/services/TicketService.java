@@ -2,24 +2,20 @@ package com.example.soporte.services;
 
 import com.example.soporte.models.Ticket;
 import com.example.soporte.repositories.TicketRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-@Service
-public class TicketService {
-        private TicketRepository ticketRepository;
+public class TicketService extends Service<Ticket, Long> {
+    public TicketService(TicketRepository repository) {
+        super(repository);
+    }
 
-        @Autowired
-        public TicketService(TicketRepository ticketRepository) {
-            this.ticketRepository = ticketRepository;
-        }
-        public Ticket createTicket(Ticket ticket){
-            ticketRepository.save(ticket);
-            return ticket;
-        }
-        public Collection<Ticket> getTickets() {
-                return ticketRepository.findAll();
-        }
+    public Ticket createTicket() {
+        Ticket ticket = new Ticket();
+        return repository.save(ticket);
+    }
+
+    public Collection<Ticket> getTickets() {
+        return repository.findAll();
+    }
 }
