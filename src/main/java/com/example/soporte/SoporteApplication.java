@@ -9,7 +9,6 @@ public class SoporteApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SoporteApplication.class, args);
-
 	}
 
 }

@@ -24,10 +24,9 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	//implementation 'io.springfox:springfox-boot-starter:3.0.0'
-	//implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-	//implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.5.0'
+
+	implementation group: 'com.graphql-java-kickstart', name: 'graphql-java-tools', version: '13.1.1'
 }
 
 tasks.named('test') {
