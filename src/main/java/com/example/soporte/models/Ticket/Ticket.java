@@ -1,4 +1,4 @@
-package com.example.soporte.models;
+package com.example.soporte.models.Ticket;
 
 import jakarta.persistence.*;
 

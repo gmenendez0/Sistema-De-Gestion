@@ -1,6 +1,6 @@
 package com.example.soporte.services;
 
-import com.example.soporte.models.Ticket;
+import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.TicketRepository;
 
 import java.util.Collection;

@@ -1,13 +1,6 @@
 package com.example.soporte.controllers;
 
-import com.example.soporte.models.Ticket;
-import com.example.soporte.services.TicketService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-
+/*
 @RestController
 @RequestMapping("/api/tickets")
 public class TicketController {
@@ -27,3 +20,4 @@ public class TicketController {
     }
 
 }
+*/
