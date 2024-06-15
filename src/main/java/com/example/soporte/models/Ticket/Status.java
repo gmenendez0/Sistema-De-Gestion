@@ -1,6 +1,6 @@
 package com.example.soporte.models.Ticket;
 
-public enum TicketStatus{
+public enum Status{
     NUEVO,
     EN_PROGRESO,
     ESPERANDO_CLIENTE,
