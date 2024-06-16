@@ -4,9 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-//@Entity
+@Entity
 public class Client {
-
+    @Id
     private long id;
 
     private String cuit;

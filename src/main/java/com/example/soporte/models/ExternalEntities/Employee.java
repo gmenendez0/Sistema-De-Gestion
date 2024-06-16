@@ -1,6 +1,11 @@
 package com.example.soporte.models.ExternalEntities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Employee{
+@Id
     private long fileName;
 
     private String name;
