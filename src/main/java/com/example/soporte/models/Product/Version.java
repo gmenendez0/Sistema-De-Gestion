@@ -3,6 +3,7 @@ package com.example.soporte.models.Product;
 import com.example.soporte.models.Ticket.Ticket;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -19,12 +20,13 @@ public class Version{
     private long id;
 
     private String name;
-
     @ManyToOne
     @JoinColumn(name = "fk_product_id")
     @JsonBackReference
     private Product product;
+
     @OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Ticket> tickets = new ArrayList<>();
     public Version(){}
 

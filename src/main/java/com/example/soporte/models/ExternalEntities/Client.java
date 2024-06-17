@@ -1,16 +1,22 @@
 package com.example.soporte.models.ExternalEntities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Client {
     @Id
     private long id;
 
+    @Transient
+    @JsonProperty("CUIT")
     private String cuit;
 
+    @Transient
+    @JsonProperty("razon social")
     private String businessName;
 
     public Client(){}

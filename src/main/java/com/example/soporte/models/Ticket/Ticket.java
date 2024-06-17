@@ -2,13 +2,17 @@ package com.example.soporte.models.Ticket;
 
 import com.example.soporte.models.ExternalEntities.Client;
 import com.example.soporte.models.ExternalEntities.Employee;
+import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Product.Version;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tickets")
@@ -21,7 +25,6 @@ public class Ticket {
     private String description;
     private Severity severity;
     private Status status;
-    private LocalDateTime resolution_date_time;
     @ManyToOne
     @JoinColumn(name = "fk_employee_id")
     private Employee employee;
@@ -30,14 +33,18 @@ public class Ticket {
     private Client client;
     @ManyToOne
     @JoinColumn(name = "fk_version_id")
-    @JsonManagedReference
+    @JsonBackReference // "BackReference" no se serializa
     private Version version;
-
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Task> tasks = new ArrayList<>();
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private LocalDateTime creationDateTime;
 
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    @Column(name = "Assigned_date_time")
+    private LocalDateTime assignedDateTime;
+    @Column(name = "resolution_date_time")
+    private LocalDateTime resolutionDateTime;
     public Ticket() {
     }
 

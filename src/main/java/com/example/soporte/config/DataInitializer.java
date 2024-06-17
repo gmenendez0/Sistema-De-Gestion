@@ -5,7 +5,9 @@ import com.example.soporte.models.Product.Version;
 import com.example.soporte.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -37,5 +39,9 @@ public class DataInitializer implements CommandLineRunner {
 
             productRepository.saveAll(List.of(productA, productB ));
         }
+    }
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
