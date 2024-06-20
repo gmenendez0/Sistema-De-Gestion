@@ -2,21 +2,19 @@ package com.example.soporte.services;
 
 import com.example.soporte.exceptions.InterfaceException;
 import com.example.soporte.models.ExternalEntities.Client;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 //TODO:
-//1. No se esta usando el ClientRepository, se podria quitar.
-//2. Quitar la tabla de la entidad Client.
+//1. Quitar la tabla de la entidad Client.
 @org.springframework.stereotype.Service
 public class ClientService extends Service <Client,Long> {
     private final RestTemplate restTemplate;
 
     private static final String CLIENT_API_URL = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes";
 
-    public ClientService(JpaRepository<Client, Long> repository) {
-        super(repository);
+    public ClientService() {
+        super(null);
         restTemplate = new RestTemplate();
     }
 

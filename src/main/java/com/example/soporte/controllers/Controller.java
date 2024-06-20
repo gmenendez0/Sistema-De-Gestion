@@ -13,6 +13,10 @@ public class Controller{
         return new ResponseEntity<>(object, HttpStatus.CREATED);
     }
 
+    protected <T> ResponseEntity<T> noContentResponse() {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     private <T> ResponseEntity<T> notFoundResponse(T object) {
         return new ResponseEntity<>(object, HttpStatus.NOT_FOUND);
     }
@@ -27,15 +31,13 @@ public class Controller{
 
     //TODO Revisar que esta devolviendo en cada caso.
     protected ResponseEntity<Object> handleError(Exception err) {
-        if(err instanceof ResourceNotFoundException) return notFoundResponse(err);
-        if (err instanceof InvalidArgumentsException) return badRequestResponse(err);
-        if (err instanceof InvalidRequestFormatException) return badRequestResponse(err);
+        return switch(err.getClass().getName()){
+            case "ResourceNotFoundException" -> notFoundResponse(err);
+            case "InvalidArgumentsException", "InvalidRequestFormatException" -> badRequestResponse(err);
+            case "InterfaceException", "RepositoryException" -> internalServerErrorResponse(err);
 
-        if (err instanceof InterfaceException) return internalServerErrorResponse(err);
-        if (err instanceof PersistenceException) return internalServerErrorResponse(err);
-        if (err instanceof RepositoryAccessException) return internalServerErrorResponse(err);
-
-        return internalServerErrorResponse(new RuntimeException("Internal server error."));
+            default -> internalServerErrorResponse(new RuntimeException("Internal server error."));
+        };
     }
 
     protected <T> void validateResource(T resource) {

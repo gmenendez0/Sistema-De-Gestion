@@ -12,16 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 //TODO:
-//1. No se esta usando el EmployeeRepository, se podria quitar.
-//2. Quitar la tabla de la entidad Employee.
+//1. Quitar la tabla de la entidad Employee.
 @org.springframework.stereotype.Service
 public class EmployeeService extends  Service <Employee,Long>{
     private final RestTemplate restTemplate;
 
     private static final String API_URL = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos";
 
-    public EmployeeService(JpaRepository<Employee, Long> repository){
-        super(repository);
+    public EmployeeService(){
+        super(null);
         this.restTemplate = new RestTemplate();
     }
 

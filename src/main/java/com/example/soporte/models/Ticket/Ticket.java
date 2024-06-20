@@ -21,30 +21,41 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
+
     private String title;
+
     private String description;
+
     private Severity severity;
+
     private Status status;
+
     @ManyToOne
     @JoinColumn(name = "fk_employee_id")
     private Employee employee;
+
     @ManyToOne
     @JoinColumn(name = "fk_client_id")
     private Client client;
+
     @ManyToOne
     @JoinColumn(name = "fk_version_id")
     @JsonBackReference // "BackReference" no se serializa
     private Version version;
+
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Task> tasks = new ArrayList<>();
+
     @CreationTimestamp
     private LocalDateTime creationDateTime;
 
     @Column(name = "Assigned_date_time")
     private LocalDateTime assignedDateTime;
+
     @Column(name = "resolution_date_time")
     private LocalDateTime resolutionDateTime;
+
     public Ticket() {
     }
 

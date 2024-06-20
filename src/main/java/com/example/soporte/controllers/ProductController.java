@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/v1/products")
 public class ProductController extends Controller{
-
     private final ProductService productService;
+
     @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;

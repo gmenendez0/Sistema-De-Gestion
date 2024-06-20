@@ -1,6 +1,5 @@
 package com.example.soporte.controllers;
 
-import com.example.soporte.exceptions.ResourceNotFoundException;
 import com.example.soporte.models.ExternalEntities.Client;
 import com.example.soporte.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/Client")
+@RequestMapping("/v1/clients")
 public class ClientController extends Controller{
-
     private final ClientService clientService;
 
     @Autowired
