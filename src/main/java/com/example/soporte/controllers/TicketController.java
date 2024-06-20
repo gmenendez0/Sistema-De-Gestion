@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/ticket")
+@RequestMapping("/v1/tickets")
 public class TicketController extends Controller{
     private final TicketService ticketService;
 
@@ -37,6 +37,17 @@ public class TicketController extends Controller{
             return handleError(e);
         }
     }
+
+    @GetMapping
+    public ResponseEntity<?> getTickets() {
+        try {
+            return okResponse(ticketService.getAllTickets());
+        } catch (Exception e) {
+            return handleError(e);
+        }
+    }
+
+    //Modificar un ticket X
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable Long id) {
