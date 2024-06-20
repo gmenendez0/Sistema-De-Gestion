@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO Estadisticas de Ticket
 @Entity
 @Table(name = "tickets")
 public class Ticket {
