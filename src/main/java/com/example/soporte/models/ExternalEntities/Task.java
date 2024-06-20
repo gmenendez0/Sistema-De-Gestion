@@ -13,6 +13,8 @@ public class Task{
     private long id;
 
     public Task(){}
+
+    //TODO Porque una tarea tiene un ticket asociado?
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "ticket_id")

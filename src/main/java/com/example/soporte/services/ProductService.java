@@ -11,6 +11,6 @@ public class ProductService extends Service<Product, Long> {
     }
 
     public Collection<Product> getProducts() {
-        return repository.findAll();
+        return executeRepositorySupplierSafely(repository::findAll);
     }
 }

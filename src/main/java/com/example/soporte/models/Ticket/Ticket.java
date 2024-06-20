@@ -78,7 +78,7 @@ public class Ticket {
     }
 
     public Duration getMaxResponseTime() {
-        if(severity == null) return Duration.of(0, ChronoUnit.HOURS);
+        if(severity == null) return Duration.of(0, ChronoUnit.DAYS);
 
         return severity.getMaxResolutionTime();
     }

@@ -52,7 +52,7 @@ public class TicketController extends Controller{
         }
     }
 
-    //Modificar un ticket X
+    //TODO: Endpoint de modificar un ticket X
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable Long id) {
