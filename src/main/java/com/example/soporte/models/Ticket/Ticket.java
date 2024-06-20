@@ -10,7 +10,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,5 +75,11 @@ public class Ticket {
 
     public List<Task> getTasks() {
         return tasks;
+    }
+
+    public Duration getMaxResponseTime() {
+        if(severity == null) return Duration.of(0, ChronoUnit.HOURS);
+
+        return severity.getMaxResolutionTime();
     }
 }

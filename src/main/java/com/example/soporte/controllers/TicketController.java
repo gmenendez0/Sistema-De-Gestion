@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.List;
 
 @RestController
@@ -71,6 +72,19 @@ public class TicketController extends Controller{
             validateResource(tasks);
 
             return okResponse(tasks);
+        } catch (Exception e) {
+            return handleError(e);
+        }
+    }
+
+    @GetMapping("/{id}/max-response-time")
+    public ResponseEntity<?> getTicketMaxResponseTime(@PathVariable Long id) {
+        try {
+            Duration responseTime = ticketService.getTicketMaxResponseTime(id);
+
+            validateResource(responseTime);
+
+            return okResponse(responseTime);
         } catch (Exception e) {
             return handleError(e);
         }

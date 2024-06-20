@@ -4,6 +4,7 @@ import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.TicketRepository;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,12 @@ public class TicketService extends Service<Ticket, Long> {
     }
 
     public List<Task> getTasksByTicketId(Long id){
-        Ticket ticket = executeRepositorySupplierSafely(() -> repository.findById(id).orElse(null));
+        Ticket ticket = getTicketById(id);
         return Optional.ofNullable(ticket).map(Ticket::getTasks).orElse(null);
+    }
+
+    public Duration getTicketMaxResponseTime(Long id){
+        Ticket ticket = getTicketById(id);
+        return Optional.ofNullable(ticket).map(Ticket::getMaxResponseTime).orElse(null);
     }
 }
