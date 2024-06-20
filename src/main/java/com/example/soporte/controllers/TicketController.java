@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/tickets")
-public class TicketController extends Controller{
+public class TicketController extends Controller {
     private final TicketService ticketService;
 
     @Autowired
