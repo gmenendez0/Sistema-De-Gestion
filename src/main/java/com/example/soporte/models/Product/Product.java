@@ -9,9 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class) //TODO Corregir
 @Table(name = "products")
-
 public class Product{
 
     @Id

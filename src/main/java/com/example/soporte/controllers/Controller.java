@@ -4,7 +4,7 @@ import com.example.soporte.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public class Controller{
+public abstract class Controller{
     protected <T> ResponseEntity<T> okResponse(T object) {
         return new ResponseEntity<>(object, HttpStatus.OK);
     }

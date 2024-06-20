@@ -1,9 +1,11 @@
 package com.example.soporte.services;
 
+import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.TicketRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class TicketService extends Service<Ticket, Long> {
@@ -25,5 +27,10 @@ public class TicketService extends Service<Ticket, Long> {
 
     public List<Ticket> getAllTickets(){
         return executeRepositorySupplierSafely(() -> repository.findAll());
+    }
+
+    public List<Task> getTasksByTicketId(Long id){
+        Ticket ticket = executeRepositorySupplierSafely(() -> repository.findById(id).orElse(null));
+        return Optional.ofNullable(ticket).map(Ticket::getTasks).orElse(null);
     }
 }

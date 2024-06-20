@@ -1,10 +1,13 @@
 package com.example.soporte.controllers;
 
+import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/tickets")
@@ -13,6 +16,7 @@ public class TicketController extends Controller{
 
     @Autowired
     public TicketController(TicketService ticketService) {
+        super();
         this.ticketService = ticketService;
     }
 
@@ -54,6 +58,19 @@ public class TicketController extends Controller{
         try {
             ticketService.deleteTicketById(id);
             return noContentResponse();
+        } catch (Exception e) {
+            return handleError(e);
+        }
+    }
+
+    @GetMapping("/{id}/tasks")
+    public ResponseEntity<?> getTasksByTicketId(@PathVariable Long id) {
+        try {
+            List<Task> tasks = ticketService.getTasksByTicketId(id);
+
+            validateResource(tasks);
+
+            return okResponse(tasks);
         } catch (Exception e) {
             return handleError(e);
         }

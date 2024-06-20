@@ -10,8 +10,6 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class) // TODO Corregir
-// TODO Corregir tema columns
 @Entity
 @Table(name = "versions")
 public class Version{
@@ -20,6 +18,7 @@ public class Version{
     private long id;
 
     private String name;
+
     @ManyToOne
     @JoinColumn(name = "fk_product_id")
     @JsonBackReference
@@ -28,16 +27,23 @@ public class Version{
     @OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Ticket> tickets = new ArrayList<>();
+
     public Version(){}
 
     public Version(String name, Product product){
         this.name = name;
         this.product = product;
     }
+
     public void addTicket(Ticket ticket) {
         tickets.add(ticket);
         ticket.setVersion(this);
     }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
     public long getID(){
         return id;
     }

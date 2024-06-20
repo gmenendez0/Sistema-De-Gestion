@@ -14,6 +14,7 @@ public class ClientController extends Controller{
 
     @Autowired
     public ClientController(ClientService clientService) {
+        super();
         this.clientService = clientService;
     }
 

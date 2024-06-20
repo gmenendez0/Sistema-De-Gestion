@@ -14,6 +14,7 @@ public class EmployeeController extends Controller{
 
     @Autowired
     public EmployeeController(EmployeeService employeeService) {
+        super();
         this.employeeService = employeeService;
     }
 

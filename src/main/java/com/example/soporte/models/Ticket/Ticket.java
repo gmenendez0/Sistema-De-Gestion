@@ -70,4 +70,8 @@ public class Ticket {
     public void setVersion(Version version) {
         this.version = version;
     }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
 }
