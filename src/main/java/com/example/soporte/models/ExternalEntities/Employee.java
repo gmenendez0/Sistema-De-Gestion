@@ -10,9 +10,11 @@ public class Employee{
     @Id
     @JsonProperty("legajo")
     private long fileName;
+
     @Transient
     @JsonProperty("Nombre")
     private String name;
+
     @Transient
     @JsonProperty("Apellido")
     private String lastName;

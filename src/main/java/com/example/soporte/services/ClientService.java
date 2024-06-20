@@ -1,22 +1,37 @@
 package com.example.soporte.services;
 
+import com.example.soporte.exceptions.InterfaceException;
 import com.example.soporte.models.ExternalEntities.Client;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
+//TODO:
+//1. No se esta usando el ClientRepository, se podria quitar.
+//2. Quitar la tabla de la entidad Client.
 @org.springframework.stereotype.Service
 public class ClientService extends Service <Client,Long> {
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+
+    private static final String CLIENT_API_URL = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes";
+
     public ClientService(JpaRepository<Client, Long> repository) {
         super(repository);
+        restTemplate = new RestTemplate();
     }
-    private static final String API_URL = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes";
 
     public List<Client> getClients() {
-        Client[] clientesArray = restTemplate.getForObject(API_URL, Client[].class);
-        return Arrays.asList(clientesArray);
+        try {
+            Client[] clientArray = restTemplate.getForObject(CLIENT_API_URL, Client[].class);
+
+            return Optional.ofNullable(clientArray).map(Arrays::asList).orElse(null);
+        } catch (Exception e) {
+            throw new InterfaceException("Error fetching clients from external API: " + e.getMessage());
+        }
+    }
+
+    public Client getClientById(Long id) {
+        List<Client> clients = getClients();
+        return clients.stream().filter(client -> client.getId() == (id)).findFirst().orElse(null);
     }
 }

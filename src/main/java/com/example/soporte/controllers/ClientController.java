@@ -1,15 +1,14 @@
 package com.example.soporte.controllers;
 
-
+import com.example.soporte.exceptions.ResourceNotFoundException;
 import com.example.soporte.models.ExternalEntities.Client;
 import com.example.soporte.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collection;
 
 @RestController
 @RequestMapping("/Client")
@@ -25,8 +24,20 @@ public class ClientController extends Controller{
     @GetMapping
     public ResponseEntity<?> getClients(){
         try {
-            Collection<Client> clients = clientService.getClients();
-            return okResponse(clients);
+            return okResponse(clientService.getClients());
+        } catch (Exception e) {
+            return handleError(e);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getClientById(@PathVariable long id){
+        try {
+            Client client = clientService.getClientById(id);
+
+            validateResource(client);
+
+            return okResponse(client);
         } catch (Exception e) {
             return handleError(e);
         }
