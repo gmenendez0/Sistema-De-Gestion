@@ -1,10 +1,20 @@
 package com.example.soporte.models.ExternalEntities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
+
+@Entity
 public class Employee{
+    @Id
+    @JsonProperty("legajo")
     private long fileName;
-
+    @Transient
+    @JsonProperty("Nombre")
     private String name;
-
+    @Transient
+    @JsonProperty("Apellido")
     private String lastName;
 
     public Employee(){
