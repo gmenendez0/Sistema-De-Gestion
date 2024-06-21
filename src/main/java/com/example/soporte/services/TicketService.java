@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class TicketService extends Service<Ticket, Long> {
@@ -57,7 +59,7 @@ public class TicketService extends Service<Ticket, Long> {
         return Optional.ofNullable(ticket).map(Ticket::getMaxResponseTime).orElse(null);
     }
 
-    public Ticket createTicket(Long versionId, TicketRequest ticketRequest) {
+    public Ticket createTicket( TicketRequest ticketRequest) {
         Ticket ticket = new Ticket(ticketRequest);
 
         Client client = clientService.getClientById(Long.valueOf(ticketRequest.getClientId()));
@@ -66,13 +68,25 @@ public class TicketService extends Service<Ticket, Long> {
         Employee employee = employeeService.getEmployeeByFileName(Long.valueOf(ticketRequest.getEmployeeId()));
         ticket.setEmployeeId(employee.getFileName());
 
+        Version version = versionService.getVersionById(ticketRequest.getVersionId());
 
-        Version version = versionService.getVersionById(versionId);
+        List<Long> tasksId = ticketRequest.getTasksId();
+        List<Task> tasksList = tasksId.stream()
+                .map(Task::new)
+                .collect(Collectors.toList());
+
+        ticket.setTasks(tasksList);
         ticket.setVersion(version);
         version.addTicket(ticket);
 
         repository.save(ticket);
 
         return ticket;
+    }
+    public  Ticket updateTicket( TicketRequest ticketRequest){
+        Ticket ticket = getTicketById(ticketRequest.getVersionId());
+        ticket.update(ticketRequest);
+        repository.save(ticket);
+        return  ticket;
     }
 }

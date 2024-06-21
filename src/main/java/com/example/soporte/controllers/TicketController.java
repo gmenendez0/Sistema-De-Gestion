@@ -23,16 +23,25 @@ public class TicketController extends Controller {
     }
 
     @PostMapping
-    public ResponseEntity<?> createTicket(@RequestParam Long versionId,
+    public ResponseEntity<?> createTicket(
                                           @RequestBody TicketRequest ticket) {
         try {
-            Ticket savedTicket = ticketService.createTicket(versionId,ticket);
+            Ticket savedTicket = ticketService.createTicket(ticket);
             return createdResponse(savedTicket);
         } catch (Exception e) {
             return handleError(e);
         }
     }
-
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateTicket(@PathVariable Long id, @RequestBody TicketRequest ticketRequest) {
+        try {
+            Ticket ticket = ticketService.updateTicket(ticketRequest);
+            validateResource(ticket);
+            return okResponse(ticket);
+        } catch (Exception e) {
+            return handleError(e);
+        }
+    }
     @GetMapping("/{id}")
     public ResponseEntity<?> getTicket(@PathVariable Long id) {
         try {

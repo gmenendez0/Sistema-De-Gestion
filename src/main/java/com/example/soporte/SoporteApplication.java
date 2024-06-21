@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 * 7. Estadisticas de ticket
 * 8. Documentar metodos
 * 9. Ajustar diagrama de clases
+* 10. verificar que no exponemos data inncesaria, ej: atributos iternos
 * */
 @SpringBootApplication
 public class SoporteApplication {

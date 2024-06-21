@@ -1,10 +1,32 @@
 package com.example.soporte.DTO;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 public class TicketRequest {
     private String title;
     private String description;
     private String severity;
     private String status;
+    private Long versionId;
+    private List<Long> tasksId;
+
+    public Long getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(Long versionId) {
+        this.versionId = versionId;
+    }
+
+    public List<Long> getTasksId() {
+        return tasksId;
+    }
+
+    public void setTasksId(List<Long> tasksId) {
+        this.tasksId = tasksId;
+    }
+
     private Long clientId;
     private Long employeeId;
 

@@ -140,4 +140,15 @@ public class Ticket {
 
         return severity.getMaxResolutionTime();
     }
+
+    public void update(TicketRequest ticketRequest) {
+        this.title = ticketRequest.getTitle();
+        this.description = ticketRequest.getDescription();
+        this.status =  Status.valueOf(ticketRequest.getStatus().toUpperCase());
+        this.severity = Severity.valueOf(ticketRequest.getSeverity().toUpperCase());
+        this.clientId = ticketRequest.getClientId();
+        this.employeeId = ticketRequest.getEmployeeId();
+
+        // TODO actualizar lista de tareas
+    }
 }
