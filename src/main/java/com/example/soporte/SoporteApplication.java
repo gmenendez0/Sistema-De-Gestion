@@ -13,7 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 * 8. Documentar metodos
 * 9. Ajustar diagrama de clases
 * 10. verificar que no exponemos data inncesaria, ej: atributos iternos
-* */
+* 11. Implementar endpoint que reciba array de ids de tickets y devuelva los detalles para cada uno de esos tickets.
+ * */
 @SpringBootApplication
 public class SoporteApplication {
 	public static void main(String[] args) {

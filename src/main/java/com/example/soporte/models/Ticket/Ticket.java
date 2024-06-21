@@ -1,9 +1,8 @@
 package com.example.soporte.models.Ticket;
 
-import com.example.soporte.DTO.TicketRequest;
+import com.example.soporte.DTO.TicketDTO;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Product.Version;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -56,11 +55,12 @@ public class Ticket {
 
     public Ticket() {
     }
-    public Ticket(TicketRequest ticketRequest) {
-        this.title = ticketRequest.getTitle();
-        this.description = ticketRequest.getDescription();
-        this.severity = Severity.valueOf(ticketRequest.getSeverity().toUpperCase());
-        this.status = Status.valueOf(ticketRequest.getStatus().toUpperCase());
+
+    public Ticket(TicketDTO ticketDTO) {
+        this.title = ticketDTO.title;
+        this.description = ticketDTO.description;
+        this.severity = Severity.valueOf(ticketDTO.severity.toUpperCase());
+        this.status = Status.valueOf(ticketDTO.status.toUpperCase());
     }
 
     public String getTitle() {
@@ -141,14 +141,13 @@ public class Ticket {
         return severity.getMaxResolutionTime();
     }
 
-    public void update(TicketRequest ticketRequest) {
-        this.title = ticketRequest.getTitle();
-        this.description = ticketRequest.getDescription();
-        this.status =  Status.valueOf(ticketRequest.getStatus().toUpperCase());
-        this.severity = Severity.valueOf(ticketRequest.getSeverity().toUpperCase());
-        this.clientId = ticketRequest.getClientId();
-        this.employeeId = ticketRequest.getEmployeeId();
-
+    public void update(TicketDTO ticketDTO) {
+        this.title = ticketDTO.title;
+        this.description = ticketDTO.description;
+        this.status =  Status.valueOf(ticketDTO.status.toUpperCase());
+        this.severity = Severity.valueOf(ticketDTO.severity.toUpperCase());
+        this.clientId = ticketDTO.clientId;
+        this.employeeId = ticketDTO.employeeId;
         // TODO actualizar lista de tareas
     }
 }
