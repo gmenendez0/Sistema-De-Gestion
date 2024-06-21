@@ -30,7 +30,7 @@ public class VersionController extends Controller {
     @GetMapping()
     public ResponseEntity<?> getVersions(){
         try {
-            Collection<Version> versions = versionService.getVersions();
+            List<Version> versions = (List<Version>) versionService.getVersions();
 
             validateResource(versions);
 

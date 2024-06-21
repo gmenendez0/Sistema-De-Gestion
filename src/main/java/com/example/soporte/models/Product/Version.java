@@ -25,7 +25,7 @@ public class Version{
     private Product product;
 
     @OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     private List<Ticket> tickets = new ArrayList<>();
 
     public Version(){}
@@ -37,7 +37,6 @@ public class Version{
 
     public void addTicket(Ticket ticket) {
         tickets.add(ticket);
-        ticket.setVersion(this);
     }
 
     public List<Ticket> getTickets() {

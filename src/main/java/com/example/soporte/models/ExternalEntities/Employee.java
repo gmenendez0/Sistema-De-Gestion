@@ -5,17 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
 
-@Entity
 public class Employee{
-    @Id
+
     @JsonProperty("legajo")
     private long fileName;
 
-    @Transient
     @JsonProperty("Nombre")
     private String name;
 
-    @Transient
     @JsonProperty("Apellido")
     private String lastName;
 
@@ -34,7 +31,7 @@ public class Employee{
         this.lastName = lastName;
     }
 
-    public int getFileName(){
+    public long getFileName(){
         return (int) fileName;
     }
 

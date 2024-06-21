@@ -16,7 +16,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
-
     @Override
     public void run(String... args) throws Exception {
         if (productRepository.count() == 0) {
@@ -36,7 +35,6 @@ public class DataInitializer implements CommandLineRunner {
             Version versionB2 = new Version("1.1", productB);
             productB.addVersion(versionB1);
             productB.addVersion(versionB2);
-
             productRepository.saveAll(List.of(productA, productB ));
         }
     }

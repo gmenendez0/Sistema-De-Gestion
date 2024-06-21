@@ -1,5 +1,6 @@
 package com.example.soporte.controllers;
 
+import com.example.soporte.DTO.TicketRequest;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.services.TicketService;
@@ -22,9 +23,10 @@ public class TicketController extends Controller{
     }
 
     @PostMapping
-    public ResponseEntity<?> createTicket(@RequestBody Ticket ticket) {
+    public ResponseEntity<?> createTicket(@RequestParam Long versionId,
+                                          @RequestBody TicketRequest ticket) {
         try {
-            Ticket savedTicket = ticketService.saveTicket(ticket);
+            Ticket savedTicket = ticketService.createTicket(versionId,ticket);
             return createdResponse(savedTicket);
         } catch (Exception e) {
             return handleError(e);
@@ -35,7 +37,6 @@ public class TicketController extends Controller{
     public ResponseEntity<?> getTicket(@PathVariable Long id) {
         try {
             Ticket ticket = ticketService.getTicketById(id);
-
             validateResource(ticket);
             return okResponse(ticket);
         } catch (Exception e) {

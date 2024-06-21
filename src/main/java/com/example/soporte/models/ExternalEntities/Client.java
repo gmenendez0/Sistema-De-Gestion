@@ -5,12 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
 
-@Entity
 public class Client {
-    @Id
     private long id;
-
-    @Transient
     @JsonProperty("CUIT")
     private String cuit;
 

@@ -1,5 +1,6 @@
 package com.example.soporte.services;
 
+import com.example.soporte.models.Product.Product;
 import com.example.soporte.models.Product.Version;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.VersionRepository;
@@ -21,5 +22,13 @@ public class VersionService extends Service<Version, Long> {
         Optional<Version> version = executeRepositorySupplierSafely(() -> repository.findById(versionId));
 
         return version.<Collection<Ticket>>map(Version::getTickets).orElse(null);
+    }
+    public Version getVersionById(Long versionId) {
+        return repository.findById(versionId)
+                .orElseThrow(() -> new IllegalArgumentException("Version not found"));
+    }
+    public Product getProductByVersionId(Long versionId) {
+        Version version = getVersionById(versionId);
+        return version.getProduct();
     }
 }

@@ -25,7 +25,7 @@ public class Product{
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private final List<Version> versions = new ArrayList<>();
+    private  List<Version> versions = new ArrayList<>();
 
     public Product(){}
 
