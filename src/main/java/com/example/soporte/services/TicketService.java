@@ -20,9 +20,7 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public class TicketService extends Service<Ticket, Long> {
     private final ClientService clientService;
-
     private final EmployeeService employeeService;
-
     private final VersionService versionService;
 
     @Autowired
@@ -37,8 +35,8 @@ public class TicketService extends Service<Ticket, Long> {
         return executeRepositorySupplierSafely(() -> repository.findById(id).orElse(null));
     }
 
-    private Ticket saveTicket(Ticket ticket){
-        return executeRepositorySupplierSafely(() -> repository.save(ticket));
+    private void saveTicket(Ticket ticket){
+        executeRepositorySupplierSafely(() -> repository.save(ticket));
     }
 
     private GetTicketDTO getTicketDTO(Ticket ticket){
@@ -86,13 +84,14 @@ public class TicketService extends Service<Ticket, Long> {
 
         Ticket ticket = new Ticket(createTicketDTO);
         saveTicket(ticket);
-        // TODO: Notificar a Proyectos si es que se asocio alguna task a un ticket.
+
+        if(!createTicketDTO.tasks.isEmpty()) return null; // TODO: Notificar a Proyectos si es que se asocio alguna task a un ticket.
 
         return ticket;
     }
 
    @Transactional
-    public  Ticket updateTicket(UpdateTicketDTO dto, Long id){
+    public Ticket updateTicket(UpdateTicketDTO dto, Long id){
         Ticket ticket = getTicketById(id);
         if(ticket == null) return null;
 
@@ -101,8 +100,10 @@ public class TicketService extends Service<Ticket, Long> {
         updateTicketVersion(dto, ticket);
         updateTicketTasks(dto, ticket);
 
-        //TODO Notificar a Proyectos si es que se asocio o desasocio alguna task a un ticket.
-        return saveTicket(ticket);
+        saveTicket(ticket);
+        if(!dto.tasksToRelate.isEmpty() || !dto.tasksToUnrelate.isEmpty()) return null; // TODO: Notificar a Proyectos si es que se asocio alguna task a un ticket.
+
+       return ticket;
     }
 
     private void updateTicketBasicFields(UpdateTicketDTO dto, Ticket ticket){
