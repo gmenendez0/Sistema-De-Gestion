@@ -12,8 +12,6 @@ public class Task{
     @Id
     private long id;
 
-    public Task(){}
-
     //TODO Porque una tarea tiene un ticket asociado?
     @ManyToOne
     @JsonBackReference
@@ -24,9 +22,7 @@ public class Task{
         this.id = id;
     }
 
-    public Task(long id, String title){
-        this.id = id;
-    }
+    public Task(){}
 
     public long getId(){
         return id;

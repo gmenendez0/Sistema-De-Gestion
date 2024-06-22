@@ -59,11 +59,11 @@ public class Ticket {
     public Ticket(CreateTicketDTO createTicketDTO) {
         setTitle(createTicketDTO.title);
         setDescription(createTicketDTO.description);
-        setSeverity(Severity.valueOf(createTicketDTO.severity.toUpperCase())); //BUG ACA SI SE PASA UNA SEVERIDAD QUE NO EXISTE COMO NULL
-        setStatus(Status.valueOf(createTicketDTO.status.toUpperCase())); //BUG ACA SI SE PASA UNA SEVERIDAD QUE NO EXISTE COMO NULL
+        setSeverity(Severity.fromString(createTicketDTO.severity));
+        setStatus(Status.fromString(createTicketDTO.status));
         setVersion(createTicketDTO.version);
-        //this.client = createTicketDTO.client;
-        //this.employee = createTicketDTO.employee;
+        setClientId(createTicketDTO.clientId);
+        setEmployeeId(createTicketDTO.employeeId);
         setTasks(createTicketDTO.tasks);
     }
 

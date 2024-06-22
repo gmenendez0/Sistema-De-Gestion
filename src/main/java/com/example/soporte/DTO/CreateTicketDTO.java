@@ -37,18 +37,7 @@ public class CreateTicketDTO{
     public List<Long> tasksIds = new ArrayList<>();
 
     //Campos que no se espera que vengan en la request:
-    public Employee employee;
-    public Client client;
     public Version version;
+
     public List<Task> tasks = new ArrayList<>();
-
-    //Validaciones adicionales que no deben hacerse hasta que se hayan asignado los valores a los campos que no se esperan en la request.
-    public void validatePostRequestFields(){
-        String error = "";
-
-        if(client == null) error += "Client can not be null. ";
-        if(version == null) error += "Version can not be null. ";
-
-        if(!error.isEmpty()) throw new IllegalArgumentException(error);
-    }
 }

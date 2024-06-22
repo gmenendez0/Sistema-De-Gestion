@@ -47,14 +47,19 @@ public class TicketService extends Service<Ticket, Long> {
     }
 
     public Ticket createTicket(CreateTicketDTO createTicketDTO) {
-        createTicketDTO.client = clientService.getClientById(createTicketDTO.clientId);
-        createTicketDTO.employee = employeeService.getEmployeeByFileName(createTicketDTO.employeeId);
+        if (!clientService.clientExists(createTicketDTO.clientId)) throw new IllegalArgumentException("Client does not exist.");
+        if (!employeeService.employeeExists(createTicketDTO.employeeId)) throw new IllegalArgumentException("Employee does not exist.");
+
         createTicketDTO.version = versionService.getVersionById(createTicketDTO.versionId);
+        if(createTicketDTO.version == null) throw new IllegalArgumentException("Version does not exist.");
+
         createTicketDTO.tasks = createTicketDTO.tasksIds.stream().map(Task::new).toList();
-        createTicketDTO.validatePostRequestFields();
 
         Ticket ticket = new Ticket(createTicketDTO);
-        return executeRepositorySupplierSafely(() -> repository.save(ticket));
+        executeRepositorySupplierSafely(() -> repository.save(ticket));
+        // TODO: Notificar a Proyectos si es que se asocio alguna task a un ticket.
+
+        return ticket;
     }
 
     public  Ticket updateTicket( CreateTicketDTO createTicketDTO){

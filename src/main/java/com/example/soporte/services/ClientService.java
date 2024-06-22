@@ -32,4 +32,8 @@ public class ClientService extends Service <Client,Long> {
         List<Client> clients = getClients();
         return clients.stream().filter(client -> client.getId() == (id)).findFirst().orElse(null);
     }
+
+    public boolean clientExists(Long id) {
+        return getClientById(id) != null;
+    }
 }
