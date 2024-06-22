@@ -141,6 +141,22 @@ public class Ticket {
         return tasks;
     }
 
+    public void addTasks(List<Task> tasks) {
+        tasks.forEach(this::addTask);
+    }
+
+    public void removeTasks(List<Task> tasks) {
+        tasks.forEach(this::removeTask);
+    }
+
+    private void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    private void removeTask(Task task) {
+        tasks.remove(task);
+    }
+
     public Duration getMaxResponseTime() {
         if(severity == null) return Duration.of(0, ChronoUnit.DAYS);
         return severity.getMaxResolutionTime();

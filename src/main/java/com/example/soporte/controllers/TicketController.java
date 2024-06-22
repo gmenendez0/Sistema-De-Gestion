@@ -2,6 +2,7 @@ package com.example.soporte.controllers;
 
 import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.DTO.GetTicketDTO;
+import com.example.soporte.DTO.UpdateTicketDTO;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.services.TicketService;
@@ -34,10 +35,10 @@ public class TicketController extends Controller {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateTicket(@PathVariable Long id, @Valid @RequestBody CreateTicketDTO createTicketDTO) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateTicket(@PathVariable Long id, @Valid @RequestBody UpdateTicketDTO updateTicketDTO) {
         try {
-            Ticket ticket = ticketService.updateTicket(createTicketDTO);
+            Ticket ticket = ticketService.updateTicket(updateTicketDTO, id);
 
             validateResource(ticket);
 
