@@ -26,7 +26,7 @@ public class Version{
 
     @OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<Ticket> tickets = new ArrayList<>();
+    private final List<Ticket> tickets = new ArrayList<>();
 
     public Version(){}
 
@@ -37,6 +37,10 @@ public class Version{
 
     public void addTicket(Ticket ticket) {
         tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket) {
+        tickets.remove(ticket);
     }
 
     public List<Ticket> getTickets() {

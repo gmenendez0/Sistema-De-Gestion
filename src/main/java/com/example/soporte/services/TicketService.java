@@ -1,10 +1,7 @@
 package com.example.soporte.services;
 
-import com.example.soporte.DTO.TicketDTO;
-import com.example.soporte.models.ExternalEntities.Client;
-import com.example.soporte.models.ExternalEntities.Employee;
+import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.models.ExternalEntities.Task;
-import com.example.soporte.models.Product.Version;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class TicketService extends Service<Ticket, Long> {
@@ -50,32 +46,20 @@ public class TicketService extends Service<Ticket, Long> {
         return Optional.ofNullable(ticket).map(Ticket::getMaxResponseTime).orElse(null);
     }
 
-    public Ticket createTicket(TicketDTO ticketDTO) {
-        Ticket ticket = new Ticket(ticketDTO);
+    public Ticket createTicket(CreateTicketDTO createTicketDTO) {
+        createTicketDTO.client = clientService.getClientById(createTicketDTO.clientId);
+        createTicketDTO.employee = employeeService.getEmployeeByFileName(createTicketDTO.employeeId);
+        createTicketDTO.version = versionService.getVersionById(createTicketDTO.versionId);
+        createTicketDTO.tasks = createTicketDTO.tasksIds.stream().map(Task::new).toList();
+        createTicketDTO.validatePostRequestFields();
 
-        Client client = clientService.getClientById(ticketDTO.clientId);
-        ticket.setClientId(client.getId());
-
-        Employee employee = employeeService.getEmployeeByFileName(ticketDTO.employeeId);
-        ticket.setEmployeeId(employee.getFileName());
-
-        Version version = versionService.getVersionById(ticketDTO.versionId);
-
-        List<Long> tasksId = ticketDTO.tasksIds;
-        List<Task> tasksList = tasksId.stream().map(Task::new).collect(Collectors.toList());
-
-        ticket.setTasks(tasksList);
-        ticket.setVersion(version);
-        version.addTicket(ticket);
-
-        repository.save(ticket);
-
-        return ticket;
+        Ticket ticket = new Ticket(createTicketDTO);
+        return executeRepositorySupplierSafely(() -> repository.save(ticket));
     }
 
-    public  Ticket updateTicket( TicketDTO ticketDTO){
-        Ticket ticket = getTicketById(ticketDTO.versionId);
-        ticket.update(ticketDTO);
+    public  Ticket updateTicket( CreateTicketDTO createTicketDTO){
+        Ticket ticket = getTicketById(createTicketDTO.versionId);
+        ticket.update(createTicketDTO);
         repository.save(ticket);
         return  ticket;
     }

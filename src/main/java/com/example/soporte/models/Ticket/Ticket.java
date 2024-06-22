@@ -1,6 +1,6 @@
 package com.example.soporte.models.Ticket;
 
-import com.example.soporte.DTO.TicketDTO;
+import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Product.Version;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -13,7 +13,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO Estadisticas de Ticket
 @Entity
 @Table(name = "tickets")
 public class Ticket {
@@ -33,6 +32,7 @@ public class Ticket {
     private Status status;
 
     private Long employeeId;
+
     private Long clientId;
 
     @ManyToOne
@@ -56,11 +56,15 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(TicketDTO ticketDTO) {
-        this.title = ticketDTO.title;
-        this.description = ticketDTO.description;
-        this.severity = Severity.valueOf(ticketDTO.severity.toUpperCase());
-        this.status = Status.valueOf(ticketDTO.status.toUpperCase());
+    public Ticket(CreateTicketDTO createTicketDTO) {
+        setTitle(createTicketDTO.title);
+        setDescription(createTicketDTO.description);
+        setSeverity(Severity.valueOf(createTicketDTO.severity.toUpperCase())); //BUG ACA SI SE PASA UNA SEVERIDAD QUE NO EXISTE COMO NULL
+        setStatus(Status.valueOf(createTicketDTO.status.toUpperCase())); //BUG ACA SI SE PASA UNA SEVERIDAD QUE NO EXISTE COMO NULL
+        setVersion(createTicketDTO.version);
+        //this.client = createTicketDTO.client;
+        //this.employee = createTicketDTO.employee;
+        setTasks(createTicketDTO.tasks);
     }
 
     public String getTitle() {
@@ -128,7 +132,9 @@ public class Ticket {
     }
 
     public void setVersion(Version version) {
+        if(this.version != null) this.version.removeTicket(this);
         this.version = version;
+        version.addTicket(this);
     }
 
     public List<Task> getTasks() {
@@ -137,17 +143,16 @@ public class Ticket {
 
     public Duration getMaxResponseTime() {
         if(severity == null) return Duration.of(0, ChronoUnit.DAYS);
-
         return severity.getMaxResolutionTime();
     }
 
-    public void update(TicketDTO ticketDTO) {
-        this.title = ticketDTO.title;
-        this.description = ticketDTO.description;
-        this.status =  Status.valueOf(ticketDTO.status.toUpperCase());
-        this.severity = Severity.valueOf(ticketDTO.severity.toUpperCase());
-        this.clientId = ticketDTO.clientId;
-        this.employeeId = ticketDTO.employeeId;
+    public void update(CreateTicketDTO createTicketDTO) {
+        this.title = createTicketDTO.title;
+        this.description = createTicketDTO.description;
+        this.status =  Status.valueOf(createTicketDTO.status.toUpperCase());
+        this.severity = Severity.valueOf(createTicketDTO.severity.toUpperCase());
+        this.clientId = createTicketDTO.clientId;
+        this.employeeId = createTicketDTO.employeeId;
         // TODO actualizar lista de tareas
     }
 }

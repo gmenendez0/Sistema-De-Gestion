@@ -1,9 +1,10 @@
 package com.example.soporte.controllers;
 
-import com.example.soporte.DTO.TicketDTO;
+import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.services.TicketService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class TicketController extends Controller {
     }
 
     @PostMapping
-    public ResponseEntity<?> createTicket(@RequestBody TicketDTO ticket) {
+    public ResponseEntity<?> createTicket(@Valid @RequestBody CreateTicketDTO ticket) {
         try {
             Ticket savedTicket = ticketService.createTicket(ticket);
             return createdResponse(savedTicket);
@@ -33,9 +34,9 @@ public class TicketController extends Controller {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTicket(@PathVariable Long id, @RequestBody TicketDTO ticketDTO) {
+    public ResponseEntity<?> updateTicket(@PathVariable Long id, @Valid @RequestBody CreateTicketDTO createTicketDTO) {
         try {
-            Ticket ticket = ticketService.updateTicket(ticketDTO);
+            Ticket ticket = ticketService.updateTicket(createTicketDTO);
 
             validateResource(ticket);
 

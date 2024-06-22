@@ -30,9 +30,6 @@ public class ClientService extends Service <Client,Long> {
 
     public Client getClientById(Long id) {
         List<Client> clients = getClients();
-        return clients.stream()
-                .filter(client -> client.getId() == (id))
-                .findFirst()
-                .orElse(null);
+        return clients.stream().filter(client -> client.getId() == (id)).findFirst().orElse(null);
     }
 }
