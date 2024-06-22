@@ -1,4 +1,4 @@
-package com.example.soporte.ExternalAPI;
+package com.example.soporte.externalAPI;
 
 import com.example.soporte.exceptions.InterfaceException;
 import org.springframework.web.client.RestClientException;

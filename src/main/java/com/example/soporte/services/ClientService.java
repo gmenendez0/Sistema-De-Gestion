@@ -1,6 +1,6 @@
 package com.example.soporte.services;
 
-import com.example.soporte.ExternalAPI.ClientRestAPIController;
+import com.example.soporte.externalAPI.ClientRestAPIController;
 import com.example.soporte.models.ExternalEntities.Client;
 import java.util.*;
 

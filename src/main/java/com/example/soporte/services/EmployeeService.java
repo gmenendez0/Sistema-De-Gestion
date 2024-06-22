@@ -1,6 +1,6 @@
 package com.example.soporte.services;
 
-import com.example.soporte.ExternalAPI.EmployeeRestAPIController;
+import com.example.soporte.externalAPI.EmployeeRestAPIController;
 import com.example.soporte.models.ExternalEntities.Employee;
 
 import java.util.Arrays;

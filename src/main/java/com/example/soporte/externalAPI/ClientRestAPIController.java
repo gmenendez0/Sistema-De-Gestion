@@ -1,4 +1,4 @@
-package com.example.soporte.ExternalAPI;
+package com.example.soporte.externalAPI;
 
 import com.example.soporte.models.ExternalEntities.Client;
 
