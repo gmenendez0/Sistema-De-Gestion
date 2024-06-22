@@ -1,6 +1,9 @@
 package com.example.soporte.services;
 
 import com.example.soporte.DTO.CreateTicketDTO;
+import com.example.soporte.DTO.GetTicketDTO;
+import com.example.soporte.models.ExternalEntities.Client;
+import com.example.soporte.models.ExternalEntities.Employee;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.TicketRepository;
@@ -13,7 +16,9 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public class TicketService extends Service<Ticket, Long> {
     private final ClientService clientService;
+
     private final EmployeeService employeeService;
+
     private final VersionService versionService;
 
     @Autowired
@@ -24,16 +29,31 @@ public class TicketService extends Service<Ticket, Long> {
         this.versionService = versionService;
     }
 
-    public Ticket getTicketById(Long id){
+    private Ticket getTicketById(Long id){
         return executeRepositorySupplierSafely(() -> repository.findById(id).orElse(null));
+    }
+
+    private GetTicketDTO getTicketDTO(Ticket ticket){
+        Client client = clientService.getClientById(ticket.getClientId());
+        Employee employee = employeeService.getEmployeeByFileName(ticket.getEmployeeId());
+
+        return new GetTicketDTO(ticket, client, employee);
+    }
+
+    public GetTicketDTO getTicketDTOById(Long id){
+        Ticket ticket = getTicketById(id);
+        if(ticket == null) return null;
+
+        return getTicketDTO(ticket);
     }
 
     public void deleteTicketById(Long id){
         executeRepositoryRunnableSafely(() -> repository.deleteById(id));
     }
 
-    public List<Ticket> getAllTickets(){
-        return executeRepositorySupplierSafely(() -> repository.findAll());
+    public List<GetTicketDTO> getAllTickets(){
+        List<Ticket> tickets = executeRepositorySupplierSafely(() -> repository.findAll());
+        return tickets.stream().map(this::getTicketDTO).toList();
     }
 
     public List<Task> getTasksByTicketId(Long id){

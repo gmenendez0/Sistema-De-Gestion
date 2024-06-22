@@ -1,6 +1,7 @@
 package com.example.soporte.controllers;
 
 import com.example.soporte.DTO.CreateTicketDTO;
+import com.example.soporte.DTO.GetTicketDTO;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.services.TicketService;
@@ -49,7 +50,7 @@ public class TicketController extends Controller {
     @GetMapping("/{id}")
     public ResponseEntity<?> getTicket(@PathVariable Long id) {
         try {
-            Ticket ticket = ticketService.getTicketById(id);
+            GetTicketDTO ticket = ticketService.getTicketDTOById(id);
             validateResource(ticket);
             return okResponse(ticket);
         } catch (Exception e) {

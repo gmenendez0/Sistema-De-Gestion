@@ -12,7 +12,7 @@ public abstract class Service <T, ID> {
         this.repository = repository;
     }
 
-    protected <J> J executeRepositorySupplierSafely(Supplier<J> supplierCallback) {
+    protected <J> J executeRepositorySupplierSafely(Supplier<J> supplierCallback) throws RepositoryException {
         try {
             return supplierCallback.get();
         } catch (Exception e) {
@@ -20,7 +20,7 @@ public abstract class Service <T, ID> {
         }
     }
 
-    protected void executeRepositoryRunnableSafely(Runnable runnableCallback) {
+    protected void executeRepositoryRunnableSafely(Runnable runnableCallback) throws RepositoryException {
         try {
             runnableCallback.run();
         } catch (Exception e) {
