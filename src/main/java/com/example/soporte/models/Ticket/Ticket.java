@@ -20,7 +20,7 @@ public class Ticket {
     @Column
     private Long id;
 
-    @Column(nullable = true, unique = true)
+    @Column(nullable = true)
     private String title;
 
     private String description;
