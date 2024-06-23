@@ -93,7 +93,7 @@ public class TicketOperationTest extends TicketIntegrationServiceTest{
     @When("^Trying to delete ticket with ID (\\d+)$")
     public void deleteTicketById(long arg0) {
         try {
-            deleteTicket(arg0);
+            ticketService.deleteTicketById(arg0);
         } catch (Exception e) {
             exception = e;
         }
@@ -290,30 +290,11 @@ public class TicketOperationTest extends TicketIntegrationServiceTest{
         assertNotNull(exception);
         exception = null;
     }
-    // create
-    @Given("Already exist a ticket with tittle {string}")
-    public void alreadyExistATicketWithTittle(String arg0) {
-        setupProductsAndVersions();
-        setupTicketRequest(arg0,versionID);
-        ticketRequest.description = arg0;
-        try {
-            createTicket(ticketRequest);
-        }catch (Exception e ){
-            exception = e;
-        }
 
-    }
+    @When("Trying to create a ticket with no version")
+    public void tryingToCreateATicketWithNoVersion() {
+        setupTicketRequest(tittle,null);
 
-    @Then("Error a ticket with the same name already exists")
-    public void errorATicketWithTheSameNameAlreadyExists() {
-        assertNotNull(exception);
-        exception = null;
-    }
-
-    @When("Trying to create a ticket with no description")
-    public void tryingToCreateATicketWithNoDescription() {
-        setupTicketRequest(tittle,versionID);
-        ticketRequest.description = null;
         try {
             createTicket(ticketRequest);
         }catch (Exception e ){

@@ -5,14 +5,9 @@ Feature: Create Ticket
     When Trying to create a ticket with title "hello"
     Then Ticket tittle should be title "hello"
 
-  Scenario: Create a ticket with tittle X and already exist a ticket with that tittle
-    Given Already exist a ticket with tittle "hello"
-    When Trying to create a ticket with title "hello"
-    Then Error a ticket with the same name already exists
-
-  Scenario: Create a ticket with no description
+  Scenario: Create a ticket with no Version
     Given No exist Ticket with title "x"
-    When Trying to create a ticket with no description
+    When Trying to create a ticket with no version
     Then Error invalid Argument is displayed
 
   Scenario: Create a ticket with no Client

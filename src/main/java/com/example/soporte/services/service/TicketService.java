@@ -77,7 +77,7 @@ public class TicketService extends Service<Ticket, Long>{
         List<Ticket> tickets = executeRepositorySupplierSafely(() -> repository.findAll());
         return tickets.stream().map(this::getTicketDTO).toList();
     }
-
+    @Transactional
     public void deleteTicketById(Long id){
         executeRepositoryRunnableSafely(() -> repository.deleteById(id));
     }
