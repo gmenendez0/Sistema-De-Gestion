@@ -2,6 +2,7 @@ package com.example.soporte.models.Ticket;
 
 import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.models.Product.Version;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -43,12 +44,12 @@ public class Ticket {
     @ElementCollection
     private List<Long> tasks = new ArrayList<>();
 
-    @CreationTimestamp
+    @JsonIgnore
     private LocalDateTime creationDateTime;
-
+    @JsonIgnore
      @Column(name = "Assigned_date_time")
      private LocalDateTime assignedDateTime;
-
+    @JsonIgnore
     @Column(name = "resolution_date_time")
     private LocalDateTime resolutionDateTime;
 
@@ -164,5 +165,29 @@ public class Ticket {
     public Duration getMaxResponseTime() {
         if(severity == null) return Duration.of(0, ChronoUnit.DAYS);
         return severity.getMaxResolutionTime();
+    }
+
+    public LocalDateTime getCreationDateTime() {
+        return creationDateTime;
+    }
+
+    public void setCreationDateTime(LocalDateTime creationDateTime) {
+        this.creationDateTime = creationDateTime;
+    }
+
+    public LocalDateTime getAssignedDateTime() {
+        return assignedDateTime;
+    }
+
+    public void setAssignedDateTime(LocalDateTime assignedDateTime) {
+        this.assignedDateTime = assignedDateTime;
+    }
+
+    public LocalDateTime getResolutionDateTime() {
+        return resolutionDateTime;
+    }
+
+    public void setResolutionDateTime(LocalDateTime resolutionDateTime) {
+        this.resolutionDateTime = resolutionDateTime;
     }
 }

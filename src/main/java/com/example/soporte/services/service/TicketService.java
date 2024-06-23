@@ -2,6 +2,7 @@ package com.example.soporte.services.service;
 
 import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.DTO.GetTicketDTO;
+import com.example.soporte.DTO.GetTicketStatisticsDTO;
 import com.example.soporte.DTO.UpdateTicketDTO;
 import com.example.soporte.exceptions.InvalidArgumentsException;
 import com.example.soporte.exceptions.RepositoryException;
@@ -16,6 +17,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,11 +56,16 @@ public class TicketService extends Service<Ticket, Long>{
         if (!verifyTicketTittleAlreadyExist(createTicketDTO.title).isEmpty()){throw new RepositoryException("already exist ticket with tittle: " + createTicketDTO.title);}
         if (!clientService.clientExists(createTicketDTO.clientId)) throw new InvalidArgumentsException("Client does not exist.");
         if (createTicketDTO.employeeId != null && !employeeService.employeeExists(createTicketDTO.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
-
         createTicketDTO.version = versionService.getVersionById(createTicketDTO.versionId);
         if(createTicketDTO.version == null) throw new InvalidArgumentsException("Version does not exist.");
 
         Ticket ticket = new Ticket(createTicketDTO);
+
+        LocalDateTime time = LocalDateTime.now();
+        if (createTicketDTO.employeeId!= null){
+            ticket.setAssignedDateTime(time);
+        }
+        ticket.setCreationDateTime(time);
         saveTicket(ticket);
 
         //if(!createTicketDTO.tasks.isEmpty()) ticketNotificationService.notifyTicketTask(ticket.getId(), List.of(), createTicketDTO.tasksIds);
@@ -94,7 +101,6 @@ public class TicketService extends Service<Ticket, Long>{
         dto.validate();
         Ticket ticket = getTicketById(id);
         if(ticket == null) return null;
-
         updateTicketBasicFields(dto, ticket);
         updateTicketEmployee(dto, ticket);
         updateTicketVersion(dto, ticket);
@@ -107,14 +113,23 @@ public class TicketService extends Service<Ticket, Long>{
     }
 
     private void updateTicketBasicFields(UpdateTicketDTO dto, Ticket ticket){
+        Status newStatus =  Status.fromString(dto.status);
+
+        if ((newStatus == Status.CERRADO || newStatus == Status.RESUELTO_ESPERANDO_CONFIRMACION)
+                && (ticket.getStatus()!=Status.CERRADO ||ticket.getStatus()!=Status.RESUELTO_ESPERANDO_CONFIRMACION)){
+            ticket.setResolutionDateTime(LocalDateTime.now());
+        }
         if(dto.description != null) ticket.setDescription(dto.description);
-        if(dto.status != null) ticket.setStatus(Status.fromString(dto.status));
+        if(dto.status != null) ticket.setStatus(newStatus);
     }
 
     private void updateTicketEmployee(UpdateTicketDTO dto, Ticket ticket){
         if(dto.employeeId != null) {
             if(!employeeService.employeeExists(dto.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
             ticket.setEmployeeId(dto.employeeId);
+        }
+        if (dto.employeeId!= null && ticket.getEmployeeId()==null){
+            ticket.setAssignedDateTime(LocalDateTime.now());
         }
     }
 
@@ -151,5 +166,26 @@ public class TicketService extends Service<Ticket, Long>{
     public Duration getTicketMaxResponseTime(Long id){
         Ticket ticket = getTicketById(id);
         return Optional.ofNullable(ticket).map(Ticket::getMaxResponseTime).orElse(null);
+    }
+    public GetTicketStatisticsDTO getStatisticsByTicketId(Long id){
+        Ticket ticket = getTicketById(id);
+        LocalDateTime creationDateTime = ticket.getCreationDateTime();
+        LocalDateTime assignedDateTime = ticket.getAssignedDateTime();
+        LocalDateTime resolutionDateTime= ticket.getResolutionDateTime();
+
+        GetTicketStatisticsDTO dto = new GetTicketStatisticsDTO(ticket);
+
+        dto.timeToAssignment = calculateDuration(creationDateTime, assignedDateTime);
+        dto.timeToResolution = calculateDuration(assignedDateTime, resolutionDateTime);
+        dto.totalTimeToResolution = calculateDuration(creationDateTime, resolutionDateTime);
+        return  dto;
+    }
+    private Long calculateDuration(LocalDateTime start, LocalDateTime end) {
+        // retorna en Horas
+        if (start != null && end != null) {
+            return Duration.between(start, end).toHours();
+        } else {
+            return null;
+        }
     }
 }

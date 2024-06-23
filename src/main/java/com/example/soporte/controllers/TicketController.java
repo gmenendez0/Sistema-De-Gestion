@@ -2,6 +2,7 @@ package com.example.soporte.controllers;
 
 import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.DTO.GetTicketDTO;
+import com.example.soporte.DTO.GetTicketStatisticsDTO;
 import com.example.soporte.DTO.UpdateTicketDTO;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.services.service.TicketService;
@@ -98,6 +99,16 @@ public class TicketController extends Controller {
             validateResource(responseTime);
 
             return okResponse(responseTime.toDays());
+        } catch (Exception e) {
+            return handleError(e);
+        }
+    }
+    @GetMapping("/{id}/statistics")
+    public ResponseEntity<?> getStatisticsByTicketId(@PathVariable Long id) {
+        try {
+           GetTicketStatisticsDTO dto = ticketService.getStatisticsByTicketId(id);
+            validateResource(dto);
+            return okResponse(dto);
         } catch (Exception e) {
             return handleError(e);
         }
