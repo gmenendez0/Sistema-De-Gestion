@@ -66,7 +66,7 @@ public class TicketService extends Service<Ticket, Long>{
         return getTicketDTO(ticket);
     }
 
-    private GetTicketDTO getTicketDTO(Ticket ticket){
+    public GetTicketDTO getTicketDTO(Ticket ticket){
         Client client = clientService.getClientById(ticket.getClientId());
         Employee employee = employeeService.getEmployeeByFileName(ticket.getEmployeeId());
 

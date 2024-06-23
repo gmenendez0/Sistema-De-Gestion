@@ -27,7 +27,7 @@ public class GetTicketDTO{
         this.status = ticket.getStatus();
         this.severity = ticket.getSeverity();
         this.version = ticket.getVersion().getName();
-        this.maxResponseTime = ticket.getMaxResponseTime().toString();
+        this.maxResponseTime = ticket.getMaxResponseTime().toString(); //TODO REVISAR
         this.taskIds = ticket.getTasks();
         this.client = client;
         this.employee = employee;
