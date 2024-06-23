@@ -10,6 +10,7 @@ import com.example.soporte.models.Product.Version;
 import com.example.soporte.models.Ticket.Status;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.TicketRepository;
+import com.example.soporte.services.notifications.TicketNotificationService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,7 @@ public class TicketService extends Service<Ticket, Long> {
     private final ClientService clientService;
     private final EmployeeService employeeService;
     private final VersionService versionService;
+    private final TicketNotificationService ticketNotificationService;
 
     @Autowired
     public TicketService(TicketRepository repository, ClientService clientService, EmployeeService employeeService, VersionService versionService){
@@ -29,6 +31,7 @@ public class TicketService extends Service<Ticket, Long> {
         this.employeeService = employeeService;
         this.clientService = clientService;
         this.versionService = versionService;
+        this.ticketNotificationService = new TicketNotificationService();
     }
 
     private Ticket getTicketById(Long id){
@@ -37,39 +40,6 @@ public class TicketService extends Service<Ticket, Long> {
 
     private void saveTicket(Ticket ticket){
         executeRepositorySupplierSafely(() -> repository.save(ticket));
-    }
-
-    private GetTicketDTO getTicketDTO(Ticket ticket){
-        Client client = clientService.getClientById(ticket.getClientId());
-        Employee employee = employeeService.getEmployeeByFileName(ticket.getEmployeeId());
-
-        return new GetTicketDTO(ticket, client, employee);
-    }
-
-    public GetTicketDTO getTicketDTOById(Long id){
-        Ticket ticket = getTicketById(id);
-        if(ticket == null) return null;
-
-        return getTicketDTO(ticket);
-    }
-
-    public void deleteTicketById(Long id){
-        executeRepositoryRunnableSafely(() -> repository.deleteById(id));
-    }
-
-    public List<GetTicketDTO> getAllTickets(){
-        List<Ticket> tickets = executeRepositorySupplierSafely(() -> repository.findAll());
-        return tickets.stream().map(this::getTicketDTO).toList();
-    }
-
-    public List<Task> getTasksByTicketId(Long id){
-        Ticket ticket = getTicketById(id);
-        return Optional.ofNullable(ticket).map(Ticket::getTasks).orElse(null);
-    }
-
-    public Duration getTicketMaxResponseTime(Long id){
-        Ticket ticket = getTicketById(id);
-        return Optional.ofNullable(ticket).map(Ticket::getMaxResponseTime).orElse(null);
     }
 
     @Transactional
@@ -85,12 +55,35 @@ public class TicketService extends Service<Ticket, Long> {
         Ticket ticket = new Ticket(createTicketDTO);
         saveTicket(ticket);
 
-        if(!createTicketDTO.tasks.isEmpty()) return null; // TODO: Notificar a Proyectos si es que se asocio alguna task a un ticket.
+        if(!createTicketDTO.tasks.isEmpty()) ticketNotificationService.notifyTicketTask(ticket.getId(), List.of(), createTicketDTO.tasksIds);
 
         return ticket;
     }
 
-   @Transactional
+    public GetTicketDTO getTicketDTOById(Long id){
+        Ticket ticket = getTicketById(id);
+        if(ticket == null) return null;
+
+        return getTicketDTO(ticket);
+    }
+
+    private GetTicketDTO getTicketDTO(Ticket ticket){
+        Client client = clientService.getClientById(ticket.getClientId());
+        Employee employee = employeeService.getEmployeeByFileName(ticket.getEmployeeId());
+
+        return new GetTicketDTO(ticket, client, employee);
+    }
+
+    public List<GetTicketDTO> getAllTickets(){
+        List<Ticket> tickets = executeRepositorySupplierSafely(() -> repository.findAll());
+        return tickets.stream().map(this::getTicketDTO).toList();
+    }
+
+    public void deleteTicketById(Long id){
+        executeRepositoryRunnableSafely(() -> repository.deleteById(id));
+    }
+
+    @Transactional
     public Ticket updateTicket(UpdateTicketDTO dto, Long id){
         Ticket ticket = getTicketById(id);
         if(ticket == null) return null;
@@ -101,7 +94,7 @@ public class TicketService extends Service<Ticket, Long> {
         updateTicketTasks(dto, ticket);
 
         saveTicket(ticket);
-        if(!dto.tasksToRelate.isEmpty() || !dto.tasksToUnrelate.isEmpty()) return null; // TODO: Notificar a Proyectos si es que se asocio alguna task a un ticket.
+        if(!dto.tasksToRelate.isEmpty() || !dto.tasksToUnrelate.isEmpty()) ticketNotificationService.notifyTicketTask(id, dto.tasksToUnrelate, dto.tasksToRelate);
 
        return ticket;
     }
@@ -140,5 +133,15 @@ public class TicketService extends Service<Ticket, Long> {
     private void unrelateTasksFromTicket(UpdateTicketDTO dto, Ticket ticket){
         List<Task> tasks = dto.tasksToUnrelate.stream().map(Task::new).toList();
         ticket.removeTasks(tasks);
+    }
+
+    public List<Task> getTasksByTicketId(Long id){
+        Ticket ticket = getTicketById(id);
+        return Optional.ofNullable(ticket).map(Ticket::getTasks).orElse(null);
+    }
+
+    public Duration getTicketMaxResponseTime(Long id){
+        Ticket ticket = getTicketById(id);
+        return Optional.ofNullable(ticket).map(Ticket::getMaxResponseTime).orElse(null);
     }
 }
