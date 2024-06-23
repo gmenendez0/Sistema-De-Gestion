@@ -3,7 +3,6 @@ package com.example.soporte.controllers;
 import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.DTO.GetTicketDTO;
 import com.example.soporte.DTO.UpdateTicketDTO;
-import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.services.service.TicketService;
 import jakarta.validation.Valid;
@@ -81,7 +80,7 @@ public class TicketController extends Controller {
     @GetMapping("/{id}/tasks")
     public ResponseEntity<?> getTasksByTicketId(@PathVariable Long id) {
         try {
-            List<Task> tasks = ticketService.getTasksByTicketId(id);
+            List<Long> tasks = ticketService.getTasksByTicketId(id);
 
             validateResource(tasks);
 
@@ -98,7 +97,7 @@ public class TicketController extends Controller {
 
             validateResource(responseTime);
 
-            return okResponse(responseTime);
+            return okResponse(responseTime.toDays());
         } catch (Exception e) {
             return handleError(e);
         }

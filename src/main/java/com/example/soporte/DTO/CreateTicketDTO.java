@@ -1,7 +1,7 @@
 package com.example.soporte.DTO;
 
-import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Product.Version;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -38,7 +38,6 @@ public class CreateTicketDTO{
     public List<Long> tasksIds = new ArrayList<>();
 
     //Campos que no se espera que vengan en la request:
+    @JsonIgnore
     public Version version;
-
-    public List<Task> tasks = new ArrayList<>();
 }

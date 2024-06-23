@@ -21,7 +21,7 @@ public class Version{
 
     @ManyToOne
     @JoinColumn(name = "fk_product_id")
-    @JsonBackReference
+    @JsonManagedReference
     private Product product;
 
     @OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
@@ -45,10 +45,6 @@ public class Version{
 
     public List<Ticket> getTickets() {
         return tickets;
-    }
-
-    public long getID(){
-        return id;
     }
 
     public String getName(){

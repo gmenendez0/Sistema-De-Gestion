@@ -1,7 +1,6 @@
 package com.example.soporte.models.Ticket;
 
 import com.example.soporte.DTO.CreateTicketDTO;
-import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Product.Version;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -31,6 +30,7 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(nullable = true)
     private Long employeeId;
 
     private Long clientId;
@@ -40,9 +40,8 @@ public class Ticket {
     @JsonManagedReference //
     private Version version;
 
-    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Task> tasks = new ArrayList<>();
+    @ElementCollection
+    private List<Long> tasks = new ArrayList<>();
 
     @CreationTimestamp
     private LocalDateTime creationDateTime;
@@ -64,7 +63,7 @@ public class Ticket {
         setVersion(createTicketDTO.version);
         setClientId(createTicketDTO.clientId);
         setEmployeeId(createTicketDTO.employeeId);
-        setTasks(createTicketDTO.tasks);
+        setTasks(createTicketDTO.tasksIds);
     }
 
     public String getTitle() {
@@ -119,7 +118,7 @@ public class Ticket {
         return version;
     }
 
-    public void setTasks(List<Task> tasks) {
+    public void setTasks(List<Long> tasks) {
         this.tasks = tasks;
     }
 
@@ -137,38 +136,28 @@ public class Ticket {
         version.addTicket(this);
     }
 
-    public List<Task> getTasks() {
+    public List<Long> getTasks() {
         return tasks;
     }
 
-    public void addTasks(List<Task> tasks) {
+    public void addTasks(List<Long> tasks) {
         tasks.forEach(this::addTask);
     }
 
-    public void removeTasks(List<Task> tasks) {
+    public void removeTasks(List<Long> tasks) {
         tasks.forEach(this::removeTask);
     }
 
-    private void addTask(Task task) {
+    private void addTask(Long task) {
         tasks.add(task);
     }
 
-    private void removeTask(Task task) {
+    private void removeTask(Long task) {
         tasks.remove(task);
     }
 
     public Duration getMaxResponseTime() {
         if(severity == null) return Duration.of(0, ChronoUnit.DAYS);
         return severity.getMaxResolutionTime();
-    }
-
-    public void update(CreateTicketDTO createTicketDTO) {
-        this.title = createTicketDTO.title;
-        this.description = createTicketDTO.description;
-        this.status =  Status.valueOf(createTicketDTO.status.toUpperCase());
-        this.severity = Severity.valueOf(createTicketDTO.severity.toUpperCase());
-        this.clientId = createTicketDTO.clientId;
-        this.employeeId = createTicketDTO.employeeId;
-        // TODO actualizar lista de tareas
     }
 }

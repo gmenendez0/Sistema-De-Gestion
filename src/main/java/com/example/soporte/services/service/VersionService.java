@@ -25,12 +25,6 @@ public class VersionService extends Service<Version, Long>{
     }
 
     public Version getVersionById(Long versionId) {
-        return repository.findById(versionId)
-                .orElseThrow(() -> new IllegalArgumentException("Version not found"));
-    }
-
-    public Product getProductByVersionId(Long versionId) {
-        Version version = getVersionById(versionId);
-        return version.getProduct();
+        return repository.findById(versionId).orElse(null);
     }
 }
