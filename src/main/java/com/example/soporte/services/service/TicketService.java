@@ -6,7 +6,6 @@ import com.example.soporte.DTO.UpdateTicketDTO;
 import com.example.soporte.exceptions.InvalidArgumentsException;
 import com.example.soporte.models.ExternalEntities.Client;
 import com.example.soporte.models.ExternalEntities.Employee;
-import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Product.Version;
 import com.example.soporte.models.Ticket.Status;
 import com.example.soporte.models.Ticket.Ticket;
@@ -46,12 +45,10 @@ public class TicketService extends Service<Ticket, Long>{
     @Transactional
     public Ticket createTicket(CreateTicketDTO createTicketDTO) {
         if (!clientService.clientExists(createTicketDTO.clientId)) throw new InvalidArgumentsException("Client does not exist.");
-        if (!employeeService.employeeExists(createTicketDTO.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
+        if (createTicketDTO.employeeId != null && !employeeService.employeeExists(createTicketDTO.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
 
         createTicketDTO.version = versionService.getVersionById(createTicketDTO.versionId);
         if(createTicketDTO.version == null) throw new InvalidArgumentsException("Version does not exist.");
-
-        createTicketDTO.tasks = createTicketDTO.tasksIds.stream().map(Task::new).toList();
 
         Ticket ticket = new Ticket(createTicketDTO);
         saveTicket(ticket);
@@ -96,7 +93,7 @@ public class TicketService extends Service<Ticket, Long>{
         updateTicketTasks(dto, ticket);
 
         saveTicket(ticket);
-        if(!dto.tasksToRelate.isEmpty() || !dto.tasksToUnrelate.isEmpty()) ticketNotificationService.notifyTicketTask(id, dto.tasksToUnrelate, dto.tasksToRelate);
+        //if(!dto.tasksToRelate.isEmpty() || !dto.tasksToUnrelate.isEmpty()) ticketNotificationService.notifyTicketTask(id, dto.tasksToUnrelate, dto.tasksToRelate);
 
        return ticket;
     }
@@ -122,17 +119,17 @@ public class TicketService extends Service<Ticket, Long>{
     }
 
     private void updateTicketTasks(UpdateTicketDTO dto, Ticket ticket){
-        if(!dto.tasksToRelate.isEmpty()) relateTasksToTicket(dto, ticket);
         if(!dto.tasksToUnrelate.isEmpty()) unrelateTasksFromTicket(dto, ticket);
+        if(!dto.tasksToRelate.isEmpty()) relateTasksToTicket(dto, ticket);
     }
 
     private void relateTasksToTicket(UpdateTicketDTO dto, Ticket ticket){
-        List<Long> tasks = dto.tasksToRelate.stream().toList();
+        List<Long> tasks = dto.tasksToRelate;
         ticket.addTasks(tasks);
     }
 
     private void unrelateTasksFromTicket(UpdateTicketDTO dto, Ticket ticket){
-        List<Task> tasks = dto.tasksToUnrelate.stream().map(Task::new).toList();
+        List<Long> tasks = dto.tasksToUnrelate;
         ticket.removeTasks(tasks);
     }
 

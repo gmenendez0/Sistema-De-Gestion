@@ -2,7 +2,6 @@ package com.example.soporte.DTO;
 
 import com.example.soporte.models.ExternalEntities.Client;
 import com.example.soporte.models.ExternalEntities.Employee;
-import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Severity;
 import com.example.soporte.models.Ticket.Status;
 import com.example.soporte.models.Ticket.Ticket;

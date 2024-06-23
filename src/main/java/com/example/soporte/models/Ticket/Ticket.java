@@ -1,7 +1,6 @@
 package com.example.soporte.models.Ticket;
 
 import com.example.soporte.DTO.CreateTicketDTO;
-import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Product.Version;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -41,9 +40,6 @@ public class Ticket {
     @JsonManagedReference //
     private Version version;
 
-//    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private List<Task> tasks = new ArrayList<>();
     @ElementCollection
     private List<Long> tasks = new ArrayList<>();
 
@@ -148,7 +144,7 @@ public class Ticket {
         tasks.forEach(this::addTask);
     }
 
-    public void removeTasks(List<Task> tasks) {
+    public void removeTasks(List<Long> tasks) {
         tasks.forEach(this::removeTask);
     }
 
@@ -156,7 +152,7 @@ public class Ticket {
         tasks.add(task);
     }
 
-    private void removeTask(Task task) {
+    private void removeTask(Long task) {
         tasks.remove(task);
     }
 
