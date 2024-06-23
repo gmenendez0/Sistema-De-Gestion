@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TicketOperationTest extends TicketIntegrationServiceTest{
         Ticket ticket;
         GetTicketDTO getTicketDTO;
-        List<Ticket> ticketsByVersionId;
+        List<GetTicketDTO> ticketsByVersionId;
         Exception exception;
         CreateTicketDTO ticketRequest =  new CreateTicketDTO();
         Collection<Product> products;
