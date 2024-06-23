@@ -17,7 +17,7 @@ public class GetTicketDTO{
     public final Client client;
     public final Employee employee;
     public final String version;
-    public final String maxResponseTime;
+    public final Long maxResponseDays;
     public final List<Long> taskIds;
 
     public GetTicketDTO(Ticket ticket, Client client, Employee employee){
@@ -27,7 +27,7 @@ public class GetTicketDTO{
         this.status = ticket.getStatus();
         this.severity = ticket.getSeverity();
         this.version = ticket.getVersion().getName();
-        this.maxResponseTime = ticket.getMaxResponseTime().toString(); //TODO REVISAR
+        this.maxResponseDays = ticket.getMaxResponseTime().toDays();
         this.taskIds = ticket.getTasks();
         this.client = client;
         this.employee = employee;

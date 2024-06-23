@@ -91,8 +91,8 @@ public class TicketController extends Controller {
         }
     }
 
-    @GetMapping("/{id}/max-response-time")
-    public ResponseEntity<?> getTicketMaxResponseTime(@PathVariable Long id) {
+    @GetMapping("/{id}/max-response-days")
+    public ResponseEntity<?> getTicketMaxResponseDays(@PathVariable Long id) {
         try {
             Duration responseTime = ticketService.getTicketMaxResponseTime(id);
 

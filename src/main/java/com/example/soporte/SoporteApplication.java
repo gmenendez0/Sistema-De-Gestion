@@ -8,9 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 1. Implementar paginado de getTickets
  * 11. Implementar endpoint que reciba array de ids de tickets y devuelva los detalles para cada uno de esos tickets.
  * 6. Implementar endpoint para obtener todas las tareas de un ticket X filtrando por titulo (usar queryParam)
- * 3. Tests cucumber
- * 7. Estadisticas de ticket
- * 8. Analizar si se puede eliminar la API GET Products.
  * 8. Documentar metodos
  * 9. Ajustar diagrama de clases
  * */
