@@ -1,7 +1,7 @@
 package com.example.soporte.controllers;
 
+import com.example.soporte.DTO.GetTicketDTO;
 import com.example.soporte.models.Product.Version;
-import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.services.service.TicketService;
 import com.example.soporte.services.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class VersionController extends Controller {
     @GetMapping("/{id}/tickets")
     public ResponseEntity<?> getVersionsTickets(@PathVariable Long id){
         try {
-            Collection<Ticket> tickets = versionService.getTicketsByVersion(id);
+            Collection<GetTicketDTO> tickets = versionService.getTicketsByVersion(id);
 
             validateResource(tickets);
 
