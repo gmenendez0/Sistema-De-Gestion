@@ -16,7 +16,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -147,36 +146,10 @@ public class TicketService extends Service<Ticket, Long>{
         return Optional.ofNullable(ticket).map(Ticket::getMaxResponseTime).orElse(null);
     }
 
-
-
-
-
-
-    //TODO
     public GetTicketStatisticsDTO getStatisticsByTicketId(Long id){
         Ticket ticket = getTicketById(id);
         if (ticket == null) return null;
 
-        LocalDateTime creationDateTime = ticket.getCreationDateTime();
-        LocalDateTime assignedDateTime = ticket.getAssignedDateTime();
-        LocalDateTime resolutionDateTime= ticket.getResolutionDateTime();
-
-        GetTicketStatisticsDTO dto = new GetTicketStatisticsDTO(ticket);
-
-        dto.timeToAssignment = calculateDuration(creationDateTime, assignedDateTime);
-        dto.timeToResolution = calculateDuration(assignedDateTime, resolutionDateTime);
-        dto.totalTimeToResolution = calculateDuration(creationDateTime, resolutionDateTime);
-        return dto;
+        return new GetTicketStatisticsDTO(ticket);
     }
-
-    //TODO
-    private Long calculateDuration(LocalDateTime start, LocalDateTime end) {
-        // retorna en Horas
-        if (start != null && end != null) {
-            return Duration.between(start, end).toHours();
-        } else {
-            return null;
-        }
-    }
-
 }

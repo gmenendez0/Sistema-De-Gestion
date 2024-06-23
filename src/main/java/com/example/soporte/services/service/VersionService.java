@@ -1,6 +1,5 @@
 package com.example.soporte.services.service;
 
-import com.example.soporte.models.Product.Product;
 import com.example.soporte.models.Product.Version;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.VersionRepository;

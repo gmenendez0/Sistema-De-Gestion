@@ -123,6 +123,10 @@ public class Ticket {
         return resolutionDateTime;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -149,18 +153,14 @@ public class Ticket {
         this.clientId = clientId;
     }
 
-    public void setTasks(List<Long> tasks) {
-        this.tasks = tasks;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setVersion(Version version) {
         if(this.version != null) this.version.removeTicket(this);
         this.version = version;
         version.addTicket(this);
+    }
+
+    public void setTasks(List<Long> tasks) {
+        this.tasks = tasks;
     }
 
     public void addTasks(List<Long> tasksId) {

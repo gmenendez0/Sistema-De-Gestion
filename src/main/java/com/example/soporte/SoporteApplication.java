@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /*
 * 0. Verificar que en varios lados se sigue serializando mal el MaxResponseTime. Hay que agregarle el .toDays.
- * 1. Implementar paginado de APIs
+ * 1. Implementar paginado de getTickets
  * 11. Implementar endpoint que reciba array de ids de tickets y devuelva los detalles para cada uno de esos tickets.
  * 6. Implementar endpoint para obtener todas las tareas de un ticket X filtrando por titulo (usar queryParam)
  * 3. Tests cucumber
