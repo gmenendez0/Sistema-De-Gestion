@@ -27,8 +27,6 @@ public class TicketService extends Service<Ticket, Long>{
     private final EmployeeService employeeService;
     private final VersionService versionService;
     private final TicketNotificationService ticketNotificationService;
-    @Autowired
-    TicketRepository repository;
 
     @Autowired
     public TicketService(TicketRepository repository, ClientService clientService, EmployeeService employeeService, VersionService versionService, TicketNotificationService ticketNotificationService) {
@@ -46,26 +44,16 @@ public class TicketService extends Service<Ticket, Long>{
     private void saveTicket(Ticket ticket){
         executeRepositorySupplierSafely(() -> repository.save(ticket));
     }
-    private List<Ticket> verifyTicketTittleAlreadyExist(String title){
-
-      return executeRepositorySupplierSafely(() -> repository.findByTitle(title));
-    }
 
     @Transactional
     public Ticket createTicket(CreateTicketDTO createTicketDTO) {
-        if (!verifyTicketTittleAlreadyExist(createTicketDTO.title).isEmpty()){throw new RepositoryException("already exist ticket with tittle: " + createTicketDTO.title);}
         if (!clientService.clientExists(createTicketDTO.clientId)) throw new InvalidArgumentsException("Client does not exist.");
         if (createTicketDTO.employeeId != null && !employeeService.employeeExists(createTicketDTO.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
+
         createTicketDTO.version = versionService.getVersionById(createTicketDTO.versionId);
         if(createTicketDTO.version == null) throw new InvalidArgumentsException("Version does not exist.");
 
         Ticket ticket = new Ticket(createTicketDTO);
-
-        LocalDateTime time = LocalDateTime.now();
-        if (createTicketDTO.employeeId!= null){
-            ticket.setAssignedDateTime(time);
-        }
-        ticket.setCreationDateTime(time);
         saveTicket(ticket);
 
         //if(!createTicketDTO.tasks.isEmpty()) ticketNotificationService.notifyTicketTask(ticket.getId(), List.of(), createTicketDTO.tasksIds);
@@ -101,6 +89,7 @@ public class TicketService extends Service<Ticket, Long>{
         dto.validate();
         Ticket ticket = getTicketById(id);
         if(ticket == null) return null;
+
         updateTicketBasicFields(dto, ticket);
         updateTicketEmployee(dto, ticket);
         updateTicketVersion(dto, ticket);
@@ -113,23 +102,14 @@ public class TicketService extends Service<Ticket, Long>{
     }
 
     private void updateTicketBasicFields(UpdateTicketDTO dto, Ticket ticket){
-        Status newStatus =  Status.fromString(dto.status);
-
-        if ((newStatus == Status.CERRADO || newStatus == Status.RESUELTO_ESPERANDO_CONFIRMACION)
-                && (ticket.getStatus()!=Status.CERRADO ||ticket.getStatus()!=Status.RESUELTO_ESPERANDO_CONFIRMACION)){
-            ticket.setResolutionDateTime(LocalDateTime.now());
-        }
         if(dto.description != null) ticket.setDescription(dto.description);
-        if(dto.status != null) ticket.setStatus(newStatus);
+        if(dto.status != null) ticket.setStatus(Status.fromString(dto.status));
     }
 
     private void updateTicketEmployee(UpdateTicketDTO dto, Ticket ticket){
         if(dto.employeeId != null) {
             if(!employeeService.employeeExists(dto.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
             ticket.setEmployeeId(dto.employeeId);
-        }
-        if (dto.employeeId!= null && ticket.getEmployeeId()==null){
-            ticket.setAssignedDateTime(LocalDateTime.now());
         }
     }
 
@@ -146,11 +126,11 @@ public class TicketService extends Service<Ticket, Long>{
         if(!dto.tasksToRelate.isEmpty()) relateTasksToTicket(dto, ticket);
     }
 
+    //TODO
     private void relateTasksToTicket(UpdateTicketDTO dto, Ticket ticket){
         // SET ??
         List<Long> tasks = dto.tasksToRelate;
         ticket.addTasks(tasks);
-
     }
 
     private void unrelateTasksFromTicket(UpdateTicketDTO dto, Ticket ticket){
@@ -167,6 +147,13 @@ public class TicketService extends Service<Ticket, Long>{
         Ticket ticket = getTicketById(id);
         return Optional.ofNullable(ticket).map(Ticket::getMaxResponseTime).orElse(null);
     }
+
+
+
+
+
+
+    //TODO
     public GetTicketStatisticsDTO getStatisticsByTicketId(Long id){
         Ticket ticket = getTicketById(id);
         LocalDateTime creationDateTime = ticket.getCreationDateTime();
@@ -180,6 +167,8 @@ public class TicketService extends Service<Ticket, Long>{
         dto.totalTimeToResolution = calculateDuration(creationDateTime, resolutionDateTime);
         return  dto;
     }
+
+    //TODO
     private Long calculateDuration(LocalDateTime start, LocalDateTime end) {
         // retorna en Horas
         if (start != null && end != null) {
@@ -188,4 +177,5 @@ public class TicketService extends Service<Ticket, Long>{
             return null;
         }
     }
+
 }

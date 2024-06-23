@@ -78,6 +78,7 @@ public class TicketController extends Controller {
         }
     }
 
+    //TODO
     @GetMapping("/{id}/tasks")
     public ResponseEntity<?> getTasksByTicketId(@PathVariable Long id) {
         try {
@@ -103,6 +104,7 @@ public class TicketController extends Controller {
             return handleError(e);
         }
     }
+
     @GetMapping("/{id}/statistics")
     public ResponseEntity<?> getStatisticsByTicketId(@PathVariable Long id) {
         try {

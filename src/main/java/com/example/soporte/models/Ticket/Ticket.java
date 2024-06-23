@@ -5,7 +5,6 @@ import com.example.soporte.models.Product.Version;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,6 +19,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
+
     @Column(nullable = true, unique = true)
     private String title;
 
@@ -46,9 +46,11 @@ public class Ticket {
 
     @JsonIgnore
     private LocalDateTime creationDateTime;
+
     @JsonIgnore
      @Column(name = "Assigned_date_time")
      private LocalDateTime assignedDateTime;
+
     @JsonIgnore
     @Column(name = "resolution_date_time")
     private LocalDateTime resolutionDateTime;
@@ -65,6 +67,7 @@ public class Ticket {
         setClientId(createTicketDTO.clientId);
         setEmployeeId(createTicketDTO.employeeId);
         setTasks(createTicketDTO.tasksIds);
+        setCreationDateTime(LocalDateTime.now());
     }
 
     public String getTitle() {
@@ -96,6 +99,7 @@ public class Ticket {
     }
 
     public void setStatus(Status status) {
+        if(status == Status.CERRADO) setAssignedDateTime(LocalDateTime.now());
         this.status = status;
     }
 
@@ -104,6 +108,7 @@ public class Ticket {
     }
 
     public void setEmployeeId(Long employeeId) {
+        if(employeeId == null) setAssignedDateTime(LocalDateTime.now());
         this.employeeId = employeeId;
     }
 
@@ -142,11 +147,8 @@ public class Ticket {
     }
 
     public void addTasks(List<Long> tasksId) {
-
         for (long taskId : tasksId) {
-            if (!tasks.contains(taskId)) {
-                addTask(taskId);
-            }
+            if (!tasks.contains(taskId)) addTask(taskId);
         }
     }
 
