@@ -3,6 +3,7 @@ package com.example.soporte.services.service;
 import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.DTO.GetTicketDTO;
 import com.example.soporte.DTO.UpdateTicketDTO;
+import com.example.soporte.exceptions.InvalidArgumentsException;
 import com.example.soporte.models.ExternalEntities.Client;
 import com.example.soporte.models.ExternalEntities.Employee;
 import com.example.soporte.models.ExternalEntities.Task;
@@ -44,18 +45,18 @@ public class TicketService extends Service<Ticket, Long>{
 
     @Transactional
     public Ticket createTicket(CreateTicketDTO createTicketDTO) {
-        if (!clientService.clientExists(createTicketDTO.clientId)) throw new IllegalArgumentException("Client does not exist.");
-        if (!employeeService.employeeExists(createTicketDTO.employeeId)) throw new IllegalArgumentException("Employee does not exist.");
+        if (!clientService.clientExists(createTicketDTO.clientId)) throw new InvalidArgumentsException("Client does not exist.");
+        if (!employeeService.employeeExists(createTicketDTO.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
 
         createTicketDTO.version = versionService.getVersionById(createTicketDTO.versionId);
-        if(createTicketDTO.version == null) throw new IllegalArgumentException("Version does not exist.");
+        if(createTicketDTO.version == null) throw new InvalidArgumentsException("Version does not exist.");
 
         createTicketDTO.tasks = createTicketDTO.tasksIds.stream().map(Task::new).toList();
 
         Ticket ticket = new Ticket(createTicketDTO);
         saveTicket(ticket);
 
-        if(!createTicketDTO.tasks.isEmpty()) ticketNotificationService.notifyTicketTask(ticket.getId(), List.of(), createTicketDTO.tasksIds);
+        //if(!createTicketDTO.tasks.isEmpty()) ticketNotificationService.notifyTicketTask(ticket.getId(), List.of(), createTicketDTO.tasksIds);
 
         return ticket;
     }
@@ -109,14 +110,14 @@ public class TicketService extends Service<Ticket, Long>{
         if(dto.employeeId != null && employeeService.employeeExists(dto.employeeId)) {
             ticket.setEmployeeId(dto.employeeId);
         } else {
-            throw new IllegalArgumentException("Employee does not exist.");
+            throw new InvalidArgumentsException("Employee does not exist.");
         }
     }
 
     private void updateTicketVersion(UpdateTicketDTO dto, Ticket ticket){
         if(dto.versionId != null) {
             Version version = versionService.getVersionById(dto.versionId);
-            if(version == null) throw new IllegalArgumentException("Version does not exist.");
+            if(version == null) throw new InvalidArgumentsException("Version does not exist.");
             ticket.setVersion(version);
         }
     }

@@ -33,7 +33,7 @@ public class Ticket {
 
     @Column(nullable = true)
     private Long employeeId;
-    @Column(nullable = true)
+
     private Long clientId;
 
     @ManyToOne
@@ -161,15 +161,5 @@ public class Ticket {
     public Duration getMaxResponseTime() {
         if(severity == null) return Duration.of(0, ChronoUnit.DAYS);
         return severity.getMaxResolutionTime();
-    }
-
-    public void update(CreateTicketDTO createTicketDTO) {
-        this.title = createTicketDTO.title;
-        this.description = createTicketDTO.description;
-        this.status =  Status.valueOf(createTicketDTO.status.toUpperCase());
-        this.severity = Severity.valueOf(createTicketDTO.severity.toUpperCase());
-        this.clientId = createTicketDTO.clientId;
-        this.employeeId = createTicketDTO.employeeId;
-        // TODO actualizar lista de tareas
     }
 }

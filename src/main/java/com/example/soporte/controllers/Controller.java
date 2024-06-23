@@ -36,6 +36,7 @@ public abstract class Controller{
     //TODO Revisar que esta devolviendo en cada caso.
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleError(Exception err) {
+        System.out.println(err.getClass().getName());
         System.out.println(err.getMessage());
 
         return switch(err){
@@ -45,15 +46,6 @@ public abstract class Controller{
 
             default -> internalServerErrorResponse("Internal server error.");
         };
-
-
-        /*return switch(err.getClass().getName()){
-            case "ResourceNotFoundException" -> notFoundResponse(err);
-            case "InvalidArgumentsException", "InvalidRequestFormatException", "MethodArgumentNotValidException" -> badRequestResponse(err);
-            case "InterfaceException", "RepositoryException" -> internalServerErrorResponse(err);
-
-            default -> internalServerErrorResponse(new RuntimeException("Internal server errorr."));
-        };*/
     }
 
     protected <T> void validateResource(T resource) {

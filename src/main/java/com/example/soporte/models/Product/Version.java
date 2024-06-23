@@ -47,10 +47,6 @@ public class Version{
         return tickets;
     }
 
-    public long getID(){
-        return id;
-    }
-
     public String getName(){
         return name;
     }

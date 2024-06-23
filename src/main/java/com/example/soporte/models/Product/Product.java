@@ -12,17 +12,12 @@ import java.util.List;
 @Entity
 @Table(name = "products")
 public class Product{
-
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonBackReference
@@ -34,16 +29,8 @@ public class Product{
         this.name = name;
     }
 
-    public long getID(){
-        return id;
-    }
-
     public String getName(){
         return name;
-    }
-
-    public Collection<Version> getVersions(){
-        return versions;
     }
 
     public void addVersion(Version version){
