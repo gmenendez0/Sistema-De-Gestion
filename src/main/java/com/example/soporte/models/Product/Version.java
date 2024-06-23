@@ -24,7 +24,7 @@ public class Version{
     @JsonManagedReference
     private Product product;
 
-    @OneToMany(mappedBy = "version", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "version", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonBackReference
     private final List<Ticket> tickets = new ArrayList<>();
 

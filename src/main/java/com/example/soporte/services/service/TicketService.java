@@ -5,6 +5,7 @@ import com.example.soporte.DTO.GetTicketDTO;
 import com.example.soporte.DTO.GetTicketStatisticsDTO;
 import com.example.soporte.DTO.UpdateTicketDTO;
 import com.example.soporte.exceptions.InvalidArgumentsException;
+import com.example.soporte.exceptions.RepositoryException;
 import com.example.soporte.models.ExternalEntities.Client;
 import com.example.soporte.models.ExternalEntities.Employee;
 import com.example.soporte.models.Product.Version;
@@ -112,6 +113,7 @@ public class TicketService extends Service{
 
     @Transactional
     public void deleteTicketById(Long id){
+        if(getTicketById(id) == null){throw new RepositoryException("Ticket does not exist.");}
         executeRepositoryRunnableSafely(() -> repository.deleteById(id));
     }
 
