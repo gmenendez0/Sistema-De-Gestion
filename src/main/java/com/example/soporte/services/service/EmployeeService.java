@@ -22,6 +22,9 @@ public class EmployeeService extends Service<Employee,Long>{
     }
 
     public Employee getEmployeeByFileName(Long fileName) {
+        if (fileName == null){
+            return null;
+        }
         return getEmployees().stream().filter(employee -> employee.getFileName() == (fileName)).findFirst().orElse(null);
     }
 
