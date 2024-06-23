@@ -24,8 +24,8 @@ public class VersionControllerV2 extends Controller {
         this.versionService = versionService;
     }
 
-    @GetMapping("/{id}/tickets/{page}")
-    public ResponseEntity<?> getVersionsTickets(@PathVariable Long id, @PathVariable Pageable page){
+    @GetMapping("/{id}/tickets")
+    public ResponseEntity<?> getVersionsTickets(@PathVariable Long id, Pageable page){
         try {
             Collection<GetTicketDTO> tickets = versionService.getTicketsByVersionWithPage(id, page);
 
