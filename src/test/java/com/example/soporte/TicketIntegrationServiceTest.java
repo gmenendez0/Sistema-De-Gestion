@@ -9,7 +9,6 @@ import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.ProductRepository;
 import com.example.soporte.services.service.TicketService;
 import com.example.soporte.services.service.VersionService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -39,7 +38,7 @@ public class TicketIntegrationServiceTest {
     }
 
     List<GetTicketDTO> getTickets() {
-        return ticketService.getAllTickets();
+        return ticketService.getAllTicketsDTOs();
     }
 
     void  deleteTicket(Long ticketId){

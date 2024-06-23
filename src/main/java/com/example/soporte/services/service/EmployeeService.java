@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class EmployeeService extends Service<Employee,Long>{
+public class EmployeeService extends Service{
     private final EmployeeRestAPIController employeeRestAPIController;
 
     public EmployeeService(){
-        super(null);
         this.employeeRestAPIController = new EmployeeRestAPIController();
     }
 

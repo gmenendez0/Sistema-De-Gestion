@@ -11,24 +11,23 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
-public class VersionService extends Service<Version, Long>{
+public class VersionService extends Service{
     private final TicketService ticketService;
-    private final VersionRepository rrepository;
+    private final VersionRepository repository;
 
     @Lazy
     @Autowired
     public VersionService(VersionRepository repository, TicketService ticketService) {
-        super(null);
         this.ticketService = ticketService;
-        this.rrepository = repository;
+        this.repository = repository;
     }
 
     public Collection<Version> getVersions() {
-        return executeRepositorySupplierSafely(rrepository::findAll);
+        return executeRepositorySupplierSafely(repository::findAll);
     }
 
     public Version getVersionById(Long versionId) {
-        return executeRepositorySupplierSafely(() -> rrepository.findById(versionId).orElse(null));
+        return executeRepositorySupplierSafely(() -> repository.findById(versionId).orElse(null));
     }
 
     public Collection<GetTicketDTO> getTicketsByVersion(Long versionId) {
