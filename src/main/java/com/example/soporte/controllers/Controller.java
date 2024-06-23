@@ -33,7 +33,6 @@ public abstract class Controller{
         return new ResponseEntity<>(object, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    //TODO Revisar que esta devolviendo en cada caso.
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleError(Exception err) {
         System.out.println(err.getClass().getName());

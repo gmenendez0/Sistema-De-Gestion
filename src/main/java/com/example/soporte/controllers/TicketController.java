@@ -97,7 +97,7 @@ public class TicketController extends Controller {
 
             validateResource(responseTime);
 
-            return okResponse(responseTime);
+            return okResponse(responseTime.toDays());
         } catch (Exception e) {
             return handleError(e);
         }
