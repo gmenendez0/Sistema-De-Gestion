@@ -81,7 +81,7 @@ public class TicketController extends Controller {
     @GetMapping("/{id}/tasks")
     public ResponseEntity<?> getTasksByTicketId(@PathVariable Long id) {
         try {
-            List<Task> tasks = ticketService.getTasksByTicketId(id);
+            List<Long> tasks = ticketService.getTasksByTicketId(id);
 
             validateResource(tasks);
 

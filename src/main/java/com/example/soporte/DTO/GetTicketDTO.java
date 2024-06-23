@@ -29,7 +29,7 @@ public class GetTicketDTO{
         this.severity = ticket.getSeverity();
         this.version = ticket.getVersion().getName();
         this.maxResponseTime = ticket.getMaxResponseTime().toString();
-        this.taskIds = ticket.getTasks().stream().map(Task::getId).toList();
+        this.taskIds = ticket.getTasks().stream().toList();
         this.client = client;
         this.employee = employee;
     }

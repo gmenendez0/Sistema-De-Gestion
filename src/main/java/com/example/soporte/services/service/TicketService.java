@@ -128,7 +128,7 @@ public class TicketService extends Service<Ticket, Long>{
     }
 
     private void relateTasksToTicket(UpdateTicketDTO dto, Ticket ticket){
-        List<Task> tasks = dto.tasksToRelate.stream().map(Task::new).toList();
+        List<Long> tasks = dto.tasksToRelate.stream().toList();
         ticket.addTasks(tasks);
     }
 
@@ -137,7 +137,7 @@ public class TicketService extends Service<Ticket, Long>{
         ticket.removeTasks(tasks);
     }
 
-    public List<Task> getTasksByTicketId(Long id){
+    public List<Long> getTasksByTicketId(Long id){
         Ticket ticket = getTicketById(id);
         return Optional.ofNullable(ticket).map(Ticket::getTasks).orElse(null);
     }
