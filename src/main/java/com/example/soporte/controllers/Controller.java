@@ -3,7 +3,11 @@ package com.example.soporte.controllers;
 import com.example.soporte.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@ControllerAdvice
 public abstract class Controller{
     protected <T> ResponseEntity<T> okResponse(T object) {
         return new ResponseEntity<>(object, HttpStatus.OK);
@@ -30,14 +34,26 @@ public abstract class Controller{
     }
 
     //TODO Revisar que esta devolviendo en cada caso.
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleError(Exception err) {
-        return switch(err.getClass().getName()){
+        System.out.println(err.getMessage());
+
+        return switch(err){
+            case MethodArgumentNotValidException _, InvalidArgumentsException _, InvalidRequestFormatException _ -> badRequestResponse(err.getMessage());
+            case InterfaceException _, RepositoryException _ -> internalServerErrorResponse(err.getMessage());
+            case ResourceNotFoundException _ -> notFoundResponse(err.getMessage());
+
+            default -> internalServerErrorResponse("Internal server error.");
+        };
+
+
+        /*return switch(err.getClass().getName()){
             case "ResourceNotFoundException" -> notFoundResponse(err);
-            case "InvalidArgumentsException", "InvalidRequestFormatException" -> badRequestResponse(err);
+            case "InvalidArgumentsException", "InvalidRequestFormatException", "MethodArgumentNotValidException" -> badRequestResponse(err);
             case "InterfaceException", "RepositoryException" -> internalServerErrorResponse(err);
 
-            default -> internalServerErrorResponse(new RuntimeException("Internal server error."));
-        };
+            default -> internalServerErrorResponse(new RuntimeException("Internal server errorr."));
+        };*/
     }
 
     protected <T> void validateResource(T resource) {
