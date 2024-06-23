@@ -10,6 +10,4 @@ import java.util.List;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
-    @Query("SELECT t FROM Ticket t WHERE t.title = :title")
-    List<Ticket> findByTitle(@Param("title") String title);
 }
