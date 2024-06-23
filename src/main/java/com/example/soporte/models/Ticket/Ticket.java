@@ -74,37 +74,70 @@ public class Ticket {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Severity getSeverity() {
         return severity;
     }
 
-    public void setSeverity(Severity severity) {
-        this.severity = severity;
-    }
-
     public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
-        if(status == Status.CERRADO) setAssignedDateTime(LocalDateTime.now());
-        this.status = status;
-    }
-
     public Long getEmployeeId() {
         return employeeId;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public List<Long> getTasks() {
+        return tasks;
+    }
+
+    public Duration getMaxResponseTime() {
+        if(severity == null) return Duration.of(0, ChronoUnit.DAYS);
+        return severity.getMaxResolutionTime();
+    }
+
+    public LocalDateTime getCreationDateTime() {
+        return creationDateTime;
+    }
+
+    public LocalDateTime getAssignedDateTime() {
+        return assignedDateTime;
+    }
+
+    public LocalDateTime getResolutionDateTime() {
+        return resolutionDateTime;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
+    }
+
+    public void setStatus(Status status) {
+        if(status == Status.CERRADO) setResolutionDateTime(LocalDateTime.now());
+        this.status = status;
     }
 
     public void setEmployeeId(Long employeeId) {
@@ -112,24 +145,12 @@ public class Ticket {
         this.employeeId = employeeId;
     }
 
-    public Long getClientId() {
-        return clientId;
-    }
-
     public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
-    public Version getVersion() {
-        return version;
-    }
-
     public void setTasks(List<Long> tasks) {
         this.tasks = tasks;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public void setId(Long id) {
@@ -140,10 +161,6 @@ public class Ticket {
         if(this.version != null) this.version.removeTicket(this);
         this.version = version;
         version.addTicket(this);
-    }
-
-    public List<Long> getTasks() {
-        return tasks;
     }
 
     public void addTasks(List<Long> tasksId) {
@@ -164,29 +181,12 @@ public class Ticket {
         tasks.remove(task);
     }
 
-    public Duration getMaxResponseTime() {
-        if(severity == null) return Duration.of(0, ChronoUnit.DAYS);
-        return severity.getMaxResolutionTime();
-    }
-
-    public LocalDateTime getCreationDateTime() {
-        return creationDateTime;
-    }
-
     public void setCreationDateTime(LocalDateTime creationDateTime) {
         this.creationDateTime = creationDateTime;
     }
 
-    public LocalDateTime getAssignedDateTime() {
-        return assignedDateTime;
-    }
-
     public void setAssignedDateTime(LocalDateTime assignedDateTime) {
         this.assignedDateTime = assignedDateTime;
-    }
-
-    public LocalDateTime getResolutionDateTime() {
-        return resolutionDateTime;
     }
 
     public void setResolutionDateTime(LocalDateTime resolutionDateTime) {

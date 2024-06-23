@@ -5,7 +5,6 @@ import com.example.soporte.DTO.GetTicketDTO;
 import com.example.soporte.DTO.GetTicketStatisticsDTO;
 import com.example.soporte.DTO.UpdateTicketDTO;
 import com.example.soporte.exceptions.InvalidArgumentsException;
-import com.example.soporte.exceptions.RepositoryException;
 import com.example.soporte.models.ExternalEntities.Client;
 import com.example.soporte.models.ExternalEntities.Employee;
 import com.example.soporte.models.Product.Version;
@@ -156,6 +155,8 @@ public class TicketService extends Service<Ticket, Long>{
     //TODO
     public GetTicketStatisticsDTO getStatisticsByTicketId(Long id){
         Ticket ticket = getTicketById(id);
+        if (ticket == null) return null;
+
         LocalDateTime creationDateTime = ticket.getCreationDateTime();
         LocalDateTime assignedDateTime = ticket.getAssignedDateTime();
         LocalDateTime resolutionDateTime= ticket.getResolutionDateTime();
@@ -165,7 +166,7 @@ public class TicketService extends Service<Ticket, Long>{
         dto.timeToAssignment = calculateDuration(creationDateTime, assignedDateTime);
         dto.timeToResolution = calculateDuration(assignedDateTime, resolutionDateTime);
         dto.totalTimeToResolution = calculateDuration(creationDateTime, resolutionDateTime);
-        return  dto;
+        return dto;
     }
 
     //TODO

@@ -15,9 +15,11 @@ public class GetTicketStatisticsDTO {
     public LocalDateTime resolutionDateTime;
 
     public Long timeToAssignment;
+
     public Long timeToResolution;
 
     public Long totalTimeToResolution;
+
     public GetTicketStatisticsDTO(Ticket ticket){
         this.id = ticket.getId();
         this.creationDateTime = ticket.getCreationDateTime();
