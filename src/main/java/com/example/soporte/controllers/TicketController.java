@@ -28,7 +28,7 @@ public class TicketController extends Controller {
     @PostMapping
     public ResponseEntity<?> createTicket(@Valid @RequestBody CreateTicketDTO ticket) {
         try {
-            Ticket savedTicket = ticketService.createTicket(ticket);
+            GetTicketDTO savedTicket = ticketService.createTicket(ticket);
             return createdResponse(savedTicket);
         } catch (Exception e) {
             return handleError(e);

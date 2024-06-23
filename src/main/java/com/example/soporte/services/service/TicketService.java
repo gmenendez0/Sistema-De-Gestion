@@ -48,7 +48,7 @@ public class TicketService extends Service<Ticket, Long>{
     }
 
     @Transactional
-    public Ticket createTicket(CreateTicketDTO createTicketDTO) {
+    public GetTicketDTO createTicket(CreateTicketDTO createTicketDTO) {
         if (!clientService.clientExists(createTicketDTO.clientId)) throw new InvalidArgumentsException("Client does not exist.");
         if (createTicketDTO.employeeId != null && !employeeService.employeeExists(createTicketDTO.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
 
@@ -60,7 +60,7 @@ public class TicketService extends Service<Ticket, Long>{
 
         //if(!createTicketDTO.tasks.isEmpty()) ticketNotificationService.notifyTicketTask(ticket.getId(), List.of(), createTicketDTO.tasksIds);
 
-        return ticket;
+        return getTicketDTO(ticket);
     }
 
     public GetTicketDTO getTicketDTOById(Long id){
