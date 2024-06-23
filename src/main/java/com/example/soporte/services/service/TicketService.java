@@ -31,7 +31,7 @@ public class TicketService extends Service<Ticket, Long>{
 
     @Autowired
     public TicketService(TicketRepository repository, ClientService clientService, EmployeeService employeeService, VersionService versionService, TicketNotificationService ticketNotificationService) {
-        super(repository);
+        super(null);
         this.employeeService = employeeService;
         this.clientService = clientService;
         this.versionService = versionService;
@@ -40,11 +40,11 @@ public class TicketService extends Service<Ticket, Long>{
     }
 
     private Ticket getTicketById(Long id){
-        return executeRepositorySupplierSafely(() -> repository.findById(id).orElse(null));
+        return executeRepositorySupplierSafely(() -> rrepository.findById(id).orElse(null));
     }
 
     private void saveTicket(Ticket ticket){
-        executeRepositorySupplierSafely(() -> repository.save(ticket));
+        executeRepositorySupplierSafely(() -> rrepository.save(ticket));
     }
 
     @Transactional
@@ -78,13 +78,13 @@ public class TicketService extends Service<Ticket, Long>{
     }
 
     public List<GetTicketDTO> getAllTickets(){
-        List<Ticket> tickets = executeRepositorySupplierSafely(() -> repository.findAll());
+        List<Ticket> tickets = executeRepositorySupplierSafely(rrepository::findAll);
         return tickets.stream().map(this::getTicketDTO).toList();
     }
 
     @Transactional
     public void deleteTicketById(Long id){
-        executeRepositoryRunnableSafely(() -> repository.deleteById(id));
+        executeRepositoryRunnableSafely(() -> rrepository.deleteById(id));
     }
 
     @Transactional
