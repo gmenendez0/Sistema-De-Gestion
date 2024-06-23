@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateTicketDTO{
-    @NotBlankIfPresent(message = "Title must not be blank if present.")
+    @NotBlankIfPresent(message = "Description must not be blank if present.")
     @Size(max = 300, message = "description max size is 300 characters.")
     public String description;
 
-    @NotBlankIfPresent(message = "Title must not be blank if present.")
+    @NotBlankIfPresent(message = "status must not be blank if present.")
     public String status;
 
     @Positive(message = "Employee id must be positive.")

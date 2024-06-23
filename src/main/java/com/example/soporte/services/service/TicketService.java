@@ -107,10 +107,9 @@ public class TicketService extends Service<Ticket, Long>{
     }
 
     private void updateTicketEmployee(UpdateTicketDTO dto, Ticket ticket){
-        if(dto.employeeId != null && employeeService.employeeExists(dto.employeeId)) {
+        if(dto.employeeId != null) {
+            if(!employeeService.employeeExists(dto.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
             ticket.setEmployeeId(dto.employeeId);
-        } else {
-            throw new InvalidArgumentsException("Employee does not exist.");
         }
     }
 
