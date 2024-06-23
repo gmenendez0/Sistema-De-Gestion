@@ -24,12 +24,15 @@ public class Version{
     @JsonManagedReference
     private Product product;
 
-    @OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "version", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
     private final List<Ticket> tickets = new ArrayList<>();
 
     public Version(){}
 
+    public long getId() {
+        return id;
+    }
     public Version(String name, Product product){
         this.name = name;
         this.product = product;

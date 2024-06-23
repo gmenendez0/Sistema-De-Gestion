@@ -12,6 +12,14 @@ import java.util.List;
 @Entity
 @Table(name = "products")
 public class Product{
+    public long getId() {
+        return id;
+    }
+
+    public List<Version> getVersions() {
+        return versions;
+    }
+
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +27,7 @@ public class Product{
 
     private String name;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
     private  List<Version> versions = new ArrayList<>();
 

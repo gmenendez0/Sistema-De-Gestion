@@ -4,6 +4,7 @@ import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.DTO.GetTicketDTO;
 import com.example.soporte.DTO.UpdateTicketDTO;
 import com.example.soporte.exceptions.InvalidArgumentsException;
+import com.example.soporte.exceptions.RepositoryException;
 import com.example.soporte.models.ExternalEntities.Client;
 import com.example.soporte.models.ExternalEntities.Employee;
 import com.example.soporte.models.Product.Version;
@@ -24,6 +25,8 @@ public class TicketService extends Service<Ticket, Long>{
     private final EmployeeService employeeService;
     private final VersionService versionService;
     private final TicketNotificationService ticketNotificationService;
+    @Autowired
+    TicketRepository repository;
 
     @Autowired
     public TicketService(TicketRepository repository, ClientService clientService, EmployeeService employeeService, VersionService versionService, TicketNotificationService ticketNotificationService) {
@@ -41,9 +44,14 @@ public class TicketService extends Service<Ticket, Long>{
     private void saveTicket(Ticket ticket){
         executeRepositorySupplierSafely(() -> repository.save(ticket));
     }
+    private List<Ticket> verifyTicketTittleAlreadyExist(String title){
+
+      return executeRepositorySupplierSafely(() -> repository.findByTitle(title));
+    }
 
     @Transactional
     public Ticket createTicket(CreateTicketDTO createTicketDTO) {
+        if (!verifyTicketTittleAlreadyExist(createTicketDTO.title).isEmpty()){throw new RepositoryException("already exist ticket with tittle: " + createTicketDTO.title);}
         if (!clientService.clientExists(createTicketDTO.clientId)) throw new InvalidArgumentsException("Client does not exist.");
         if (createTicketDTO.employeeId != null && !employeeService.employeeExists(createTicketDTO.employeeId)) throw new InvalidArgumentsException("Employee does not exist.");
 
@@ -124,8 +132,10 @@ public class TicketService extends Service<Ticket, Long>{
     }
 
     private void relateTasksToTicket(UpdateTicketDTO dto, Ticket ticket){
+        // SET ??
         List<Long> tasks = dto.tasksToRelate;
         ticket.addTasks(tasks);
+
     }
 
     private void unrelateTasksFromTicket(UpdateTicketDTO dto, Ticket ticket){

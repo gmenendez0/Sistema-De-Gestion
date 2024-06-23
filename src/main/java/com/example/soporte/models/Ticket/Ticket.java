@@ -19,7 +19,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
-
+    @Column(nullable = true, unique = true)
     private String title;
 
     private String description;
@@ -140,8 +140,13 @@ public class Ticket {
         return tasks;
     }
 
-    public void addTasks(List<Long> tasks) {
-        tasks.forEach(this::addTask);
+    public void addTasks(List<Long> tasksId) {
+
+        for (long taskId : tasksId) {
+            if (!tasks.contains(taskId)) {
+                addTask(taskId);
+            }
+        }
     }
 
     public void removeTasks(List<Long> tasks) {
