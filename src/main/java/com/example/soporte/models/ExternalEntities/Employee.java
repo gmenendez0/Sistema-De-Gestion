@@ -1,9 +1,6 @@
 package com.example.soporte.models.ExternalEntities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
 
 public class Employee{
 
@@ -19,12 +16,6 @@ public class Employee{
     public Employee(){
     }
 
-    public Employee(long fileName){
-        this.fileName = fileName;
-        this.name = null;
-        this.lastName = null;
-    }
-
     public Employee(int fileName, String name, String lastName){
         this.fileName = fileName;
         this.name = name;
@@ -37,10 +28,6 @@ public class Employee{
 
     public String getName(){
         return name;
-    }
-
-    public String getLastName(){
-        return lastName;
     }
 
     public void setFileName(int fileName){

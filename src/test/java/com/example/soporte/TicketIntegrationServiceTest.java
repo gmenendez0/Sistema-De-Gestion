@@ -7,7 +7,6 @@ import com.example.soporte.models.Product.Product;
 import com.example.soporte.models.Ticket.Ticket;
 
 import com.example.soporte.repositories.ProductRepository;
-import com.example.soporte.services.service.ProductService;
 import com.example.soporte.services.service.TicketService;
 import com.example.soporte.services.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class TicketIntegrationServiceTest {
     @Autowired
     TicketService ticketService;
     @Autowired
-    ProductService productService;
+    ProductRepository productRepo;
     @Autowired
     VersionService versionService;
 
@@ -51,5 +50,5 @@ public class TicketIntegrationServiceTest {
     }
 
     // products
-    Collection<Product> getProducts(){return productService.getProducts();}
+    Collection<Product> getProducts(){return productRepo.findAll();}
 }

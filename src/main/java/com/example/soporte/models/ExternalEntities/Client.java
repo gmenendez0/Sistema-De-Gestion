@@ -16,12 +16,6 @@ public class Client {
 
     public Client(){}
 
-    public Client(long id){
-        this.id = id;
-        this.cuit = null;
-        this.businessName = null;
-    }
-
     public Client(long id, String cuit, String businessName){
         this.id = id;
         this.cuit = cuit;
@@ -30,14 +24,6 @@ public class Client {
 
     public long getId(){
         return id;
-    }
-
-    public String getCuit(){
-        return cuit;
-    }
-
-    public String getBusinessName(){
-        return businessName;
     }
 
     public void setBusinessName(String businessName){

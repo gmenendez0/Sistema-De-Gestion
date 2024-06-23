@@ -4,7 +4,6 @@ import com.example.soporte.exceptions.InterfaceException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-
 public abstract class RestAPIController {
     private final RestTemplate restTemplate;
 

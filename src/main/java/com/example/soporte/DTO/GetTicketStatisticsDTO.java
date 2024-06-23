@@ -31,7 +31,6 @@ public class GetTicketStatisticsDTO {
 
     private Long calculateDuration(LocalDateTime start, LocalDateTime end) {
         if (start != null && end != null) return Duration.between(start, end).toHours();
-
         return null;
     }
 }
