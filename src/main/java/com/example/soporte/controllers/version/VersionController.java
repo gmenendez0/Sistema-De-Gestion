@@ -1,8 +1,8 @@
-package com.example.soporte.controllers;
+package com.example.soporte.controllers.version;
 
 import com.example.soporte.DTO.GetTicketDTO;
+import com.example.soporte.controllers.Controller;
 import com.example.soporte.models.Product.Version;
-import com.example.soporte.services.service.TicketService;
 import com.example.soporte.services.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/versions")
-public class VersionController extends Controller {
+public class VersionController extends Controller{
     private final VersionService versionService;
 
     @Autowired
-    public VersionController(VersionService versionService, TicketService ticketService) {
+    public VersionController(VersionService versionService) {
         super();
         this.versionService = versionService;
     }

@@ -14,6 +14,8 @@ import com.example.soporte.repositories.TicketRepository;
 import com.example.soporte.services.notification.TicketNotificationService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.Duration;
 import java.util.List;
@@ -25,6 +27,7 @@ public class TicketService extends Service<Ticket, Long>{
     private final EmployeeService employeeService;
     private final VersionService versionService;
     private final TicketNotificationService ticketNotificationService;
+    private final TicketRepository rrepository;
 
     @Autowired
     public TicketService(TicketRepository repository, ClientService clientService, EmployeeService employeeService, VersionService versionService, TicketNotificationService ticketNotificationService) {
@@ -33,6 +36,7 @@ public class TicketService extends Service<Ticket, Long>{
         this.clientService = clientService;
         this.versionService = versionService;
         this.ticketNotificationService = ticketNotificationService;
+        this.rrepository = repository;
     }
 
     private Ticket getTicketById(Long id){
@@ -77,6 +81,7 @@ public class TicketService extends Service<Ticket, Long>{
         List<Ticket> tickets = executeRepositorySupplierSafely(() -> repository.findAll());
         return tickets.stream().map(this::getTicketDTO).toList();
     }
+
     @Transactional
     public void deleteTicketById(Long id){
         executeRepositoryRunnableSafely(() -> repository.deleteById(id));
@@ -124,9 +129,7 @@ public class TicketService extends Service<Ticket, Long>{
         if(!dto.tasksToRelate.isEmpty()) relateTasksToTicket(dto, ticket);
     }
 
-    //TODO
     private void relateTasksToTicket(UpdateTicketDTO dto, Ticket ticket){
-        // SET ??
         List<Long> tasks = dto.tasksToRelate;
         ticket.addTasks(tasks);
     }
@@ -151,5 +154,13 @@ public class TicketService extends Service<Ticket, Long>{
         if (ticket == null) return null;
 
         return new GetTicketStatisticsDTO(ticket);
+    }
+
+    public List<Ticket> getTicketsByVersionId(Long versionId){
+        return executeRepositorySupplierSafely(() -> rrepository.getTicketsByVersion(versionId));
+    }
+
+    public Page<Ticket> getTicketPageByVersionId(Long versionId, Pageable page){
+        return executeRepositorySupplierSafely(() -> rrepository.getTicketsPageByVersionId(versionId, page));
     }
 }
