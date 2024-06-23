@@ -1,5 +1,6 @@
 package com.example.soporte.models.Product;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -24,7 +25,7 @@ public class Product{
     }
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     private  List<Version> versions = new ArrayList<>();
 
     public Product(){}

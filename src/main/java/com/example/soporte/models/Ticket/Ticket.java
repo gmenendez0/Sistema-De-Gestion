@@ -31,8 +31,9 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(nullable = true)
     private Long employeeId;
-
+    @Column(nullable = true)
     private Long clientId;
 
     @ManyToOne
