@@ -1,9 +1,8 @@
 package com.example.soporte.models.Ticket;
 
-import com.example.soporte.DTO.TicketRequest;
+import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Product.Version;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,7 +13,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO Estadisticas de Ticket
 @Entity
 @Table(name = "tickets")
 public class Ticket {
@@ -34,6 +32,7 @@ public class Ticket {
     private Status status;
 
     private Long employeeId;
+
     private Long clientId;
 
     @ManyToOne
@@ -56,11 +55,16 @@ public class Ticket {
 
     public Ticket() {
     }
-    public Ticket(TicketRequest ticketRequest) {
-        this.title = ticketRequest.getTitle();
-        this.description = ticketRequest.getDescription();
-        this.severity = Severity.valueOf(ticketRequest.getSeverity().toUpperCase());
-        this.status = Status.valueOf(ticketRequest.getStatus().toUpperCase());
+
+    public Ticket(CreateTicketDTO createTicketDTO) {
+        setTitle(createTicketDTO.title);
+        setDescription(createTicketDTO.description);
+        setSeverity(Severity.fromString(createTicketDTO.severity));
+        setStatus(Status.fromString(createTicketDTO.status));
+        setVersion(createTicketDTO.version);
+        setClientId(createTicketDTO.clientId);
+        setEmployeeId(createTicketDTO.employeeId);
+        setTasks(createTicketDTO.tasks);
     }
 
     public String getTitle() {
@@ -128,27 +132,43 @@ public class Ticket {
     }
 
     public void setVersion(Version version) {
+        if(this.version != null) this.version.removeTicket(this);
         this.version = version;
+        version.addTicket(this);
     }
 
     public List<Task> getTasks() {
         return tasks;
     }
 
+    public void addTasks(List<Task> tasks) {
+        tasks.forEach(this::addTask);
+    }
+
+    public void removeTasks(List<Task> tasks) {
+        tasks.forEach(this::removeTask);
+    }
+
+    private void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    private void removeTask(Task task) {
+        tasks.remove(task);
+    }
+
     public Duration getMaxResponseTime() {
         if(severity == null) return Duration.of(0, ChronoUnit.DAYS);
-
         return severity.getMaxResolutionTime();
     }
 
-    public void update(TicketRequest ticketRequest) {
-        this.title = ticketRequest.getTitle();
-        this.description = ticketRequest.getDescription();
-        this.status =  Status.valueOf(ticketRequest.getStatus().toUpperCase());
-        this.severity = Severity.valueOf(ticketRequest.getSeverity().toUpperCase());
-        this.clientId = ticketRequest.getClientId();
-        this.employeeId = ticketRequest.getEmployeeId();
-
+    public void update(CreateTicketDTO createTicketDTO) {
+        this.title = createTicketDTO.title;
+        this.description = createTicketDTO.description;
+        this.status =  Status.valueOf(createTicketDTO.status.toUpperCase());
+        this.severity = Severity.valueOf(createTicketDTO.severity.toUpperCase());
+        this.clientId = createTicketDTO.clientId;
+        this.employeeId = createTicketDTO.employeeId;
         // TODO actualizar lista de tareas
     }
 }

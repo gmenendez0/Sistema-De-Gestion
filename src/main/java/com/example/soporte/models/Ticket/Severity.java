@@ -1,5 +1,7 @@
 package com.example.soporte.models.Ticket;
 
+import com.example.soporte.exceptions.InvalidArgumentsException;
+
 import java.time.Duration;
 
 public enum Severity {
@@ -27,6 +29,14 @@ public enum Severity {
             return Duration.ofDays(365);
         }
     };
+
+    public static Severity fromString(String severity){
+        try {
+            return Severity.valueOf(severity.toUpperCase());
+        } catch(IllegalArgumentException exception){
+            throw new InvalidArgumentsException("Invalid severity: " + severity);
+        }
+    }
 
     public abstract Duration getMaxResolutionTime();
 }

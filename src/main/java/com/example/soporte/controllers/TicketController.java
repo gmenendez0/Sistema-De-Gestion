@@ -1,9 +1,12 @@
 package com.example.soporte.controllers;
 
-import com.example.soporte.DTO.TicketRequest;
+import com.example.soporte.DTO.CreateTicketDTO;
+import com.example.soporte.DTO.GetTicketDTO;
+import com.example.soporte.DTO.UpdateTicketDTO;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
-import com.example.soporte.services.TicketService;
+import com.example.soporte.services.service.TicketService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +26,7 @@ public class TicketController extends Controller {
     }
 
     @PostMapping
-    public ResponseEntity<?> createTicket(
-                                          @RequestBody TicketRequest ticket) {
+    public ResponseEntity<?> createTicket(@Valid @RequestBody CreateTicketDTO ticket) {
         try {
             Ticket savedTicket = ticketService.createTicket(ticket);
             return createdResponse(savedTicket);
@@ -32,20 +34,24 @@ public class TicketController extends Controller {
             return handleError(e);
         }
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateTicket(@PathVariable Long id, @RequestBody TicketRequest ticketRequest) {
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateTicket(@PathVariable Long id, @Valid @RequestBody UpdateTicketDTO updateTicketDTO) {
         try {
-            Ticket ticket = ticketService.updateTicket(ticketRequest);
+            Ticket ticket = ticketService.updateTicket(updateTicketDTO, id);
+
             validateResource(ticket);
+
             return okResponse(ticket);
         } catch (Exception e) {
             return handleError(e);
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getTicket(@PathVariable Long id) {
         try {
-            Ticket ticket = ticketService.getTicketById(id);
+            GetTicketDTO ticket = ticketService.getTicketDTOById(id);
             validateResource(ticket);
             return okResponse(ticket);
         } catch (Exception e) {
@@ -61,8 +67,6 @@ public class TicketController extends Controller {
             return handleError(e);
         }
     }
-
-    //TODO: Endpoint de modificar un ticket X
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable Long id) {
