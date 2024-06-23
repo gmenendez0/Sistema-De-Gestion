@@ -6,11 +6,10 @@ import com.example.soporte.models.ExternalEntities.Client;
 import java.util.*;
 
 @org.springframework.stereotype.Service
-public class ClientService extends Service<Client,Long>{
+public class ClientService extends Service{
     private final ClientRestAPIController clientRestAPIController;
 
     public ClientService() {
-        super(null);
         this.clientRestAPIController = new ClientRestAPIController();
     }
 

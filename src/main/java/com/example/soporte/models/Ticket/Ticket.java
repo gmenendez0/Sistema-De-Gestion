@@ -59,6 +59,7 @@ public class Ticket {
     }
 
     public Ticket(CreateTicketDTO createTicketDTO) {
+        setCreationDateTime(LocalDateTime.now());
         setTitle(createTicketDTO.title);
         setDescription(createTicketDTO.description);
         setSeverity(Severity.fromString(createTicketDTO.severity));
@@ -67,7 +68,6 @@ public class Ticket {
         setClientId(createTicketDTO.clientId);
         setEmployeeId(createTicketDTO.employeeId);
         setTasks(createTicketDTO.tasksIds);
-        setCreationDateTime(LocalDateTime.now());
     }
 
     public String getTitle() {
@@ -145,7 +145,7 @@ public class Ticket {
     }
 
     public void setEmployeeId(Long employeeId) {
-        if(employeeId == null) setAssignedDateTime(LocalDateTime.now());
+        setAssignedDateTime(LocalDateTime.now());
         this.employeeId = employeeId;
     }
 

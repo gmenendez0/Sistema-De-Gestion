@@ -28,7 +28,7 @@ public class TicketController extends Controller {
     @PostMapping
     public ResponseEntity<?> createTicket(@Valid @RequestBody CreateTicketDTO ticket) {
         try {
-            Ticket savedTicket = ticketService.createTicket(ticket);
+            GetTicketDTO savedTicket = ticketService.createTicket(ticket);
             return createdResponse(savedTicket);
         } catch (Exception e) {
             return handleError(e);
@@ -38,7 +38,7 @@ public class TicketController extends Controller {
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateTicket(@PathVariable Long id, @Valid @RequestBody UpdateTicketDTO updateTicketDTO) {
         try {
-            Ticket ticket = ticketService.updateTicket(updateTicketDTO, id);
+            GetTicketDTO ticket = ticketService.updateTicket(updateTicketDTO, id);
 
             validateResource(ticket);
 
@@ -62,7 +62,7 @@ public class TicketController extends Controller {
     @GetMapping
     public ResponseEntity<?> getTickets() {
         try {
-            return okResponse(ticketService.getAllTickets());
+            return okResponse(ticketService.getAllTicketsDTOs());
         } catch (Exception e) {
             return handleError(e);
         }

@@ -6,37 +6,37 @@ import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.VersionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-
-import java.util.ArrayList;
+import org.springframework.data.domain.Pageable;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
-public class VersionService extends Service<Version, Long>{
+public class VersionService extends Service{
     private final TicketService ticketService;
+    private final VersionRepository repository;
 
     @Lazy
     @Autowired
     public VersionService(VersionRepository repository, TicketService ticketService) {
-        super(repository);
         this.ticketService = ticketService;
+        this.repository = repository;
     }
 
     public Collection<Version> getVersions() {
-        return executeRepositorySupplierSafely(() -> repository.findAll());
-    }
-
-    public Collection<GetTicketDTO> getTicketsByVersion(Long versionId) {
-        Optional<Version> version = executeRepositorySupplierSafely(() -> repository.findById(versionId));
-        Collection<Ticket> tickets = version.map(Version::getTickets).orElse(null);
-
-        if(tickets == null) return new ArrayList<>();
-
-        return tickets.stream().map(ticketService::getTicketDTO).collect(Collectors.toList());
+        return executeRepositorySupplierSafely(repository::findAll);
     }
 
     public Version getVersionById(Long versionId) {
-        return repository.findById(versionId).orElse(null);
+        return executeRepositorySupplierSafely(() -> repository.findById(versionId).orElse(null));
+    }
+
+    public Collection<GetTicketDTO> getTicketsByVersion(Long versionId) {
+        Collection<Ticket> tickets = ticketService.getTicketsByVersionId(versionId);
+        return tickets.stream().map(ticketService::getTicketDTO).collect(Collectors.toList());
+    }
+
+    public Collection<GetTicketDTO> getTicketsByVersionWithPage(Long versionId, Pageable requestedPage) {
+        Collection<Ticket> tickets = ticketService.getTicketPageByVersionId(versionId, requestedPage).getContent();
+        return tickets.stream().map(ticketService::getTicketDTO).collect(Collectors.toList());
     }
 }
