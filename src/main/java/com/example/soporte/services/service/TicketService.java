@@ -1,4 +1,4 @@
-package com.example.soporte.services;
+package com.example.soporte.services.service;
 
 import com.example.soporte.DTO.CreateTicketDTO;
 import com.example.soporte.DTO.GetTicketDTO;
@@ -10,7 +10,7 @@ import com.example.soporte.models.Product.Version;
 import com.example.soporte.models.Ticket.Status;
 import com.example.soporte.models.Ticket.Ticket;
 import com.example.soporte.repositories.TicketRepository;
-import com.example.soporte.services.notifications.TicketNotificationService;
+import com.example.soporte.services.notification.TicketNotificationService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,19 +19,19 @@ import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class TicketService extends Service<Ticket, Long> {
+public class TicketService extends Service<Ticket, Long>{
     private final ClientService clientService;
     private final EmployeeService employeeService;
     private final VersionService versionService;
     private final TicketNotificationService ticketNotificationService;
 
     @Autowired
-    public TicketService(TicketRepository repository, ClientService clientService, EmployeeService employeeService, VersionService versionService){
+    public TicketService(TicketRepository repository, ClientService clientService, EmployeeService employeeService, VersionService versionService, TicketNotificationService ticketNotificationService) {
         super(repository);
         this.employeeService = employeeService;
         this.clientService = clientService;
         this.versionService = versionService;
-        this.ticketNotificationService = new TicketNotificationService();
+        this.ticketNotificationService = ticketNotificationService;
     }
 
     private Ticket getTicketById(Long id){
@@ -85,6 +85,7 @@ public class TicketService extends Service<Ticket, Long> {
 
     @Transactional
     public Ticket updateTicket(UpdateTicketDTO dto, Long id){
+        dto.validate();
         Ticket ticket = getTicketById(id);
         if(ticket == null) return null;
 

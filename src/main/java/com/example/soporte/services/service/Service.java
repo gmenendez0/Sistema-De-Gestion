@@ -1,4 +1,4 @@
-package com.example.soporte.services;
+package com.example.soporte.services.service;
 
 import com.example.soporte.exceptions.RepositoryException;
 import org.springframework.data.jpa.repository.JpaRepository;

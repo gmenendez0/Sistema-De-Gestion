@@ -1,4 +1,4 @@
-package com.example.soporte.services.notifications;
+package com.example.soporte.services.notification;
 
 @org.springframework.stereotype.Service
 public abstract class NotificationService {

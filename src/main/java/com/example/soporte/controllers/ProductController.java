@@ -1,7 +1,7 @@
 package com.example.soporte.controllers;
 
 import com.example.soporte.models.Product.Product;
-import com.example.soporte.services.ProductService;
+import com.example.soporte.services.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

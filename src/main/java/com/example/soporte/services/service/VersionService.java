@@ -1,4 +1,4 @@
-package com.example.soporte.services;
+package com.example.soporte.services.service;
 
 import com.example.soporte.models.Product.Product;
 import com.example.soporte.models.Product.Version;
@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class VersionService extends Service<Version, Long> {
+public class VersionService extends Service<Version, Long>{
     public VersionService(VersionRepository repository) {
         super(repository);
     }

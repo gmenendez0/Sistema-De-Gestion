@@ -1,12 +1,11 @@
-package com.example.soporte.DTO;
+package com.example.soporte.services.notification.notifications;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TicketTaskNotification{
-    List<Long> downList = new ArrayList<>();
-    Long ticketId;
-    List<Long> upList = new ArrayList<>();
+    public List<Long> downList;
+    public Long ticketId;
+    public List<Long> upList;
 
     public TicketTaskNotification(Long ticketId, List<Long> downList, List<Long> upList){
         this.ticketId = ticketId;

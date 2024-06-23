@@ -1,4 +1,4 @@
-package com.example.soporte.services.notifications;
+package com.example.soporte.services.notification;
 
 import org.springframework.stereotype.Component;
 

@@ -2,8 +2,8 @@ package com.example.soporte.controllers;
 
 import com.example.soporte.models.Product.Version;
 import com.example.soporte.models.Ticket.Ticket;
-import com.example.soporte.services.TicketService;
-import com.example.soporte.services.VersionService;
+import com.example.soporte.services.service.TicketService;
+import com.example.soporte.services.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

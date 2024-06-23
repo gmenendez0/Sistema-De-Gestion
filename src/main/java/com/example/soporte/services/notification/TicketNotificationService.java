@@ -1,12 +1,13 @@
-package com.example.soporte.services.notifications;
+package com.example.soporte.services.notification;
 
-import com.example.soporte.DTO.TicketTaskNotification;
+import com.example.soporte.externalAPI.ProjectsModuleRestAPIControllerNotifier;
+import com.example.soporte.services.notification.notifications.TicketTaskNotification;
 
 import java.util.List;
 
 public class TicketNotificationService extends NotificationService{
     public TicketNotificationService(){
-        super(null);
+        super(new ProjectsModuleRestAPIControllerNotifier("")); //TODO AGREGAR URL
     }
 
     public void notifyTicketTask(Long ticketId, List<Long> downList, List<Long> upList){

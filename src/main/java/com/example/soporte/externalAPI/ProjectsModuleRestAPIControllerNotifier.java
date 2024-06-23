@@ -1,6 +1,6 @@
 package com.example.soporte.externalAPI;
 
-import com.example.soporte.services.notifications.Notifier;
+import com.example.soporte.services.notification.Notifier;
 
 public class ProjectsModuleRestAPIControllerNotifier extends RestAPIController implements Notifier {
     public ProjectsModuleRestAPIControllerNotifier(String url){
@@ -13,6 +13,6 @@ public class ProjectsModuleRestAPIControllerNotifier extends RestAPIController i
     }
 
     public <T> void sendNotification(T notification, Class<T> aClass){
-        postObject(notification, aClass);
+        patchObject(notification, aClass);
     }
 }

@@ -23,9 +23,9 @@ public abstract class RestAPIController {
         }
     }
 
-    protected <T> void postObject(Object object, Class<T> aClass) throws InterfaceException {
+    protected <T> void patchObject(Object object, Class<T> aClass) throws InterfaceException {
         try {
-            restTemplate.postForObject(url, object, aClass);
+            restTemplate.patchForObject(url, object, aClass);
         } catch (RestClientException e) {
             throw new InterfaceException("Error posting data to external API " + apiName() + ": " + e.getMessage());
         }

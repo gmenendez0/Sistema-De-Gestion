@@ -1,11 +1,12 @@
-package com.example.soporte.services;
+package com.example.soporte.services.service;
 
 import com.example.soporte.externalAPI.ClientRestAPIController;
 import com.example.soporte.models.ExternalEntities.Client;
+
 import java.util.*;
 
 @org.springframework.stereotype.Service
-public class ClientService extends Service <Client,Long> {
+public class ClientService extends Service<Client,Long>{
     private final ClientRestAPIController clientRestAPIController;
 
     public ClientService() {

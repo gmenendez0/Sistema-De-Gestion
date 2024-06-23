@@ -5,7 +5,7 @@ import com.example.soporte.DTO.GetTicketDTO;
 import com.example.soporte.DTO.UpdateTicketDTO;
 import com.example.soporte.models.ExternalEntities.Task;
 import com.example.soporte.models.Ticket.Ticket;
-import com.example.soporte.services.TicketService;
+import com.example.soporte.services.service.TicketService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
