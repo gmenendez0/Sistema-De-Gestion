@@ -1,4 +1,4 @@
-FROM 8.8.0-jdk22 as builder
+FROM gradle:8.8.0-jdk22 as builder
 
 # Set the working directory in the container
 WORKDIR /app
