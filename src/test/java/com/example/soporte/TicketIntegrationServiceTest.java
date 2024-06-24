@@ -29,7 +29,7 @@ public class TicketIntegrationServiceTest {
     @Autowired
     VersionService versionService;
 
-    Ticket createTicket(CreateTicketDTO ticketRequest) {
+    GetTicketDTO createTicket(CreateTicketDTO ticketRequest) {
         return ticketService.createTicket(ticketRequest);
     }
 
@@ -45,7 +45,7 @@ public class TicketIntegrationServiceTest {
         ticketService.deleteTicketById(ticketId);
     }
 
-    Ticket updateTicket(UpdateTicketDTO ticketRequest, Long id) {
+    GetTicketDTO updateTicket(UpdateTicketDTO ticketRequest, Long id) {
         return ticketService.updateTicket(ticketRequest , id);
     }
 

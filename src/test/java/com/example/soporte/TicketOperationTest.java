@@ -23,7 +23,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration(classes = SoporteApplicationTests.class)
 public class TicketOperationTest extends TicketIntegrationServiceTest{
-        Ticket ticket;
+        GetTicketDTO ticket;
         GetTicketDTO getTicketDTO;
         List<GetTicketDTO> ticketsByVersionId;
         Exception exception;
@@ -211,7 +211,7 @@ public class TicketOperationTest extends TicketIntegrationServiceTest{
     }
 
     @Given("There are tasks associated with ticket ID {int}")
-    public void thereAreTasksAssociatedWithTicketID(Long arg0) {
+    public void thereAreTasksAssociatedWithTicketID(long arg0) {
         setupProductsAndVersions();
         setupTicketRequest("hola",versionID );
         ticketRequest.tasksIds = Arrays.asList(1L, 2L, 3L);
@@ -258,7 +258,7 @@ public class TicketOperationTest extends TicketIntegrationServiceTest{
 
     @Then("Ticket status is {string}")
     public void ticketStatusIs(String arg0) {
-        assertEquals(arg0.toUpperCase(),ticket.getStatus().toString());
+        assertEquals(arg0.toUpperCase(),ticket.status.toString());
     }
 
     @Given("Ticket with description {string}")
@@ -282,7 +282,7 @@ public class TicketOperationTest extends TicketIntegrationServiceTest{
 
     @Then("the ticket description is {string}")
     public void theTicketDescriptionIs(String arg0) {
-        assertEquals(arg0,ticket.getDescription());
+        assertEquals(arg0,ticket.description);
     }
 
     @Then("Error invalid Argument is displayed")
