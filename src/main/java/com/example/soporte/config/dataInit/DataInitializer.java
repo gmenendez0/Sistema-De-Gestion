@@ -156,22 +156,21 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (productRepository.count() == 0) {
             // TODO cambiar por YAML
-            Product productA = new Product("SIU");
-
-            Version versionA1 = new Version("2.0",productA);
-
-            Version versionA2 = new Version("1.1", productA);
-
-            productA.addVersion(versionA1);
-            productA.addVersion(versionA2);
-            Product productB = new Product("VSFS");
-
-            Version versionB1 = new Version("2.0",productB);
-
-            Version versionB2 = new Version("1.1", productB);
-            productB.addVersion(versionB1);
-            productB.addVersion(versionB2);
-            productRepository.saveAll(List.of(productA, productB ));
+            createAndSaveProduct("Enterprise Resource Planner", List.of("2.0.9", "1.2.8"));
+            createAndSaveProduct("Amazon Web Service", List.of("2.0.9", "2.1.0"));
+            createAndSaveProduct("Secure Cloud Service", List.of("2.0.9", "1.8.6"));
+            createAndSaveProduct("Advanced Analytics Suite ", List.of("2.0.4", "1.1.8", "1.1.9"));
+            createAndSaveProduct("Intelligent Automation Tool ", List.of("2.0.4", "1.5.8", "1.1.9"));
         }
+    }
+    private void createAndSaveProduct(String productName, List<String> versionNumbers) {
+        Product product = new Product(productName);
+
+        for (String versionNumber : versionNumbers) {
+            Version version = new Version(versionNumber, product);
+            product.addVersion(version);
+        }
+
+        productRepository.save(product);
     }
 }
