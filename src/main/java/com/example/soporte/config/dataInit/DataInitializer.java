@@ -154,14 +154,11 @@ public class DataInitializer implements CommandLineRunner {
     private ProductRepository productRepository;
     @Override
     public void run(String... args) throws Exception {
-        if (productRepository.count() == 0) {
-            // TODO cambiar por YAML
             createAndSaveProduct("Enterprise Resource Planner", List.of("2.0.9", "1.2.8"));
             createAndSaveProduct("Amazon Web Service", List.of("2.0.9", "2.1.0"));
             createAndSaveProduct("Secure Cloud Service", List.of("2.0.9", "1.8.6"));
             createAndSaveProduct("Advanced Analytics Suite ", List.of("2.0.4", "1.1.8", "1.1.9"));
             createAndSaveProduct("Intelligent Automation Tool ", List.of("2.0.4", "1.5.8", "1.1.9"));
-        }
     }
     private void createAndSaveProduct(String productName, List<String> versionNumbers) {
         Product product = new Product(productName);
