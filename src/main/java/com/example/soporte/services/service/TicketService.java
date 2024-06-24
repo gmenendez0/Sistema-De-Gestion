@@ -101,7 +101,7 @@ public class TicketService extends Service{
         Ticket ticket = new Ticket(createTicketDTO);
         saveTicket(ticket);
 
-        //if(!createTicketDTO.tasks.isEmpty()) ticketNotificationService.notifyTicketTask(ticket.getId(), List.of(), createTicketDTO.tasksIds);
+        if(!createTicketDTO.tasksIds.isEmpty()) ticketNotificationService.notifyTicketTask(ticket.getId(), List.of(), createTicketDTO.tasksIds);
 
         return getTicketDTO(ticket);
     }
@@ -127,7 +127,7 @@ public class TicketService extends Service{
         updateTicketTasks(dto, ticket);
 
         saveTicket(ticket);
-        //if(!dto.tasksToRelate.isEmpty() || !dto.tasksToUnrelate.isEmpty()) ticketNotificationService.notifyTicketTask(id, dto.tasksToUnrelate, dto.tasksToRelate);
+        if(!dto.tasksToRelate.isEmpty() || !dto.tasksToUnrelate.isEmpty()) ticketNotificationService.notifyTicketTask(id, dto.tasksToUnrelate, dto.tasksToRelate);
 
        return getTicketDTO(ticket);
     }
