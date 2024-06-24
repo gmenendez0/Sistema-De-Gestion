@@ -48,7 +48,9 @@ public class DataInitializer implements CommandLineRunner {
      */
     private void loadProducts() {
         try {
+            System.out.println("Current working directory: " + System.getProperty("user.dir"));
             loadProductsFromCSV();
+
         } catch (Exception e) {
             System.out.println("Error loading products from CSV file: " + e.getMessage() + " " + "Exiting application.");
             exit(1);
