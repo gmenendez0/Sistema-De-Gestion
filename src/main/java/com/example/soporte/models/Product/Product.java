@@ -1,12 +1,8 @@
 package com.example.soporte.models.Product;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -39,6 +35,14 @@ public class Product{
 
     public String getName(){
         return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setVersions(List<Version> versions){
+        this.versions = versions;
     }
 
     public void addVersion(Version version){
