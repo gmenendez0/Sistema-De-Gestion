@@ -38,4 +38,4 @@ EXPOSE 8080
 # ENV SPRING_JPA_HIBERNATE_DDL_AUTO=${SPRING_JPA_HIBERNATE_DDL_AUTO}
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/soporte-0.0.1-SNAPSHOT.jar"]
