@@ -23,7 +23,7 @@ FROM openjdk:22-jdk
 WORKDIR /app
 
 # Copy the built application from the builder stage
-COPY --from=builder /home/ubuntu/Sistema-De-Gestion-Soporte/build/libs/*.jar /home/ubuntu/Sistema-De-Gestion-Soporte/app.jar
+COPY --from=builder /app/build/libs/*.jar /app/app.jar
 
 # Expose the port the app runs on (optional, change if necessary)
 EXPOSE 8080
