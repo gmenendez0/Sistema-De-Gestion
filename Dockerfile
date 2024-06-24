@@ -25,6 +25,9 @@ WORKDIR /app
 # Copy the built application from the builder stage
 COPY --from=builder /app/build/libs/*.jar /app/
 
+# Run ls to list contents of /app/ (optional)
+RUN ls /app/
+
 # Expose the port the app runs on (optional, change if necessary)
 EXPOSE 8080
 
