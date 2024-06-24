@@ -1,4 +1,4 @@
-FROM gradle:8.8.0-jdk22 as builder
+FROM gradle:8.8-jdk22-alpine as builder
 
 # Set the working directory in the container
 WORKDIR /app
@@ -17,7 +17,7 @@ RUN chmod +x gradlew
 RUN ./gradlew build
 
 # Use the official OpenJDK 11 image for running the application
-FROM openjdk:22-jre-slim
+FROM openjdk:22-jdk
 
 # Set the working directory in the container
 WORKDIR /app
