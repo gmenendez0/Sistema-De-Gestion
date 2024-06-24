@@ -25,6 +25,11 @@ public class VersionController extends Controller{
         this.versionService = versionService;
     }
 
+    /**
+     * Retrieves all versions.
+     *
+     * @return a ResponseEntity containing a list of versions
+     */
     @GetMapping()
     public ResponseEntity<?> getVersions(){
         try {
@@ -38,6 +43,13 @@ public class VersionController extends Controller{
         }
     }
 
+    /**
+     * Retrieves tickets associated with a specific version.
+     * This method is deprecated.
+     *
+     * @param id the ID of the version
+     * @return a ResponseEntity containing a collection of tickets for the specified version
+     */
     @GetMapping("/{id}/tickets")
     @Deprecated
     public ResponseEntity<?> getVersionsTickets(@PathVariable Long id){

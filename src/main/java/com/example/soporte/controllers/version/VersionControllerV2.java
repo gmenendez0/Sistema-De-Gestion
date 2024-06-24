@@ -25,6 +25,13 @@ public class VersionControllerV2 extends Controller {
         this.versionService = versionService;
     }
 
+    /**
+     * Retrieves tickets associated with a specific version with pagination.
+     *
+     * @param id the ID of the version
+     * @param page the pagination information
+     * @return a ResponseEntity containing a collection of tickets for the specified version
+     */
     @GetMapping("/{id}/tickets")
     public ResponseEntity<?> getVersionsTickets(@PathVariable Long id, Pageable page){
         try {
@@ -38,6 +45,12 @@ public class VersionControllerV2 extends Controller {
         }
     }
 
+    /**
+     * Retrieves a specific version by its ID.
+     *
+     * @param id the ID of the version
+     * @return a ResponseEntity containing the version information
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getVersion(@PathVariable Long id){
         try {

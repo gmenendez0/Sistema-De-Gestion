@@ -7,11 +7,17 @@ public class ProjectsModuleRestAPIControllerNotifier extends RestAPIController i
         super(url);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     protected String apiName(){
         return "ProjectsAPI";
     }
 
+    /**
+     * @inheritDoc
+     */
     public <T> void sendNotification(T notification, Class<T> aClass){
         patchObject(notification, aClass);
     }

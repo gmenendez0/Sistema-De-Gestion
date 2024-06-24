@@ -18,6 +18,11 @@ public class EmployeeController extends Controller{
         this.employeeService = employeeService;
     }
 
+    /**
+     * Retrieves all employees.
+     *
+     * @return a ResponseEntity containing a list of employees
+     */
     @GetMapping
     public ResponseEntity<?> getEmployees(){
         try {

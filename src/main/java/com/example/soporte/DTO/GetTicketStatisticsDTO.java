@@ -29,6 +29,13 @@ public class GetTicketStatisticsDTO {
         this.hoursUntilSolved = calculateDuration(creationDateTime, resolutionDateTime);
     }
 
+    /**
+     * Calculates the duration in hours between two LocalDateTime instances.
+     *
+     * @param start the starting LocalDateTime
+     * @param end   the ending LocalDateTime
+     * @return the duration in hours between start and end, or null if either parameter is null
+     */
     private Long calculateDuration(LocalDateTime start, LocalDateTime end) {
         if (start != null && end != null) return Duration.between(start, end).toHours();
         return null;

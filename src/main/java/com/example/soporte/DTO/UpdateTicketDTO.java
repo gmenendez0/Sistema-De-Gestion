@@ -28,12 +28,22 @@ public class UpdateTicketDTO{
     @Size(max = 20, message = "Can not unrelate more than 20 tasks at once.")
     public List<Long> tasksToUnrelate = new ArrayList<>();
 
+    /**
+     * Validates the fields to ensure at least one field is present to update a ticket.
+     *
+     * @throws InvalidArgumentsException if all fields required for updating are null or empty
+     */
     public void validate() throws InvalidArgumentsException {
         if (allFieldsAreNull()) {
             throw new InvalidArgumentsException("At least one field must be present to update a ticket.");
         }
     }
 
+    /**
+     * Checks if all fields required for updating a ticket are null or empty.
+     *
+     * @return true if all fields are null or empty, false otherwise
+     */
     private boolean allFieldsAreNull() {
         return description == null && status == null && employeeId == null && versionId == null && tasksToRelate.isEmpty() && tasksToUnrelate.isEmpty();
     }

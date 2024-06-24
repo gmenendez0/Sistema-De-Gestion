@@ -25,6 +25,12 @@ public class TicketController extends Controller {
         this.ticketService = ticketService;
     }
 
+    /**
+     * Endpoint to create a new ticket.
+     *
+     * @param ticket the ticket data to create
+     * @return a ResponseEntity with the created ticket data
+     */
     @PostMapping
     public ResponseEntity<?> createTicket(@Valid @RequestBody CreateTicketDTO ticket) {
         try {
@@ -35,6 +41,13 @@ public class TicketController extends Controller {
         }
     }
 
+    /**
+     * Endpoint to update an existing ticket.
+     *
+     * @param id the ID of the ticket to update
+     * @param updateTicketDTO the updated ticket data
+     * @return a ResponseEntity with the updated ticket data
+     */
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateTicket(@PathVariable Long id, @Valid @RequestBody UpdateTicketDTO updateTicketDTO) {
         try {
@@ -48,6 +61,12 @@ public class TicketController extends Controller {
         }
     }
 
+    /**
+     * Endpoint to retrieve a ticket by its ID.
+     *
+     * @param id the ID of the ticket to retrieve
+     * @return a ResponseEntity with the ticket data
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getTicket(@PathVariable Long id) {
         try {
@@ -59,6 +78,11 @@ public class TicketController extends Controller {
         }
     }
 
+    /**
+     * Endpoint to retrieve all tickets.
+     *
+     * @return a ResponseEntity with a list of all tickets
+     */
     @GetMapping
     public ResponseEntity<?> getTickets() {
         try {
@@ -68,6 +92,12 @@ public class TicketController extends Controller {
         }
     }
 
+    /**
+     * Endpoint to delete a ticket by its ID.
+     *
+     * @param id the ID of the ticket to delete
+     * @return a ResponseEntity indicating success, no matter if the ticket was found or not.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable Long id) {
         try {
@@ -78,6 +108,12 @@ public class TicketController extends Controller {
         }
     }
 
+    /**
+     * Endpoint to retrieve tasks associated with a ticket by its ID.
+     *
+     * @param id the ID of the ticket
+     * @return a ResponseEntity with a list of task IDs
+     */
     @GetMapping("/{id}/tasks")
     public ResponseEntity<?> getTasksByTicketId(@PathVariable Long id) {
         try {
@@ -91,6 +127,12 @@ public class TicketController extends Controller {
         }
     }
 
+    /**
+     * Endpoint to retrieve the maximum response days for a ticket by its ID.
+     *
+     * @param id the ID of the ticket
+     * @return a ResponseEntity with the maximum response days
+     */
     @GetMapping("/{id}/max-response-days")
     public ResponseEntity<?> getTicketMaxResponseDays(@PathVariable Long id) {
         try {
@@ -104,6 +146,12 @@ public class TicketController extends Controller {
         }
     }
 
+    /**
+     * Endpoint to retrieve statistics for a ticket by its ID.
+     *
+     * @param id the ID of the ticket
+     * @return a ResponseEntity with ticket statistics
+     */
     @GetMapping("/{id}/statistics")
     public ResponseEntity<?> getStatisticsByTicketId(@PathVariable Long id) {
         try {

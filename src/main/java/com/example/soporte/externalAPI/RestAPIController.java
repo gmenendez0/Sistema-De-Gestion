@@ -18,6 +18,14 @@ public abstract class RestAPIController {
         this.url = url;
     }
 
+    /**
+     * Retrieves an object from the external API.
+     *
+     * @param aClass the class type of the object to retrieve
+     * @param <T>    the type of the object to retrieve
+     * @return the retrieved object
+     * @throws InterfaceException if an error occurs while fetching data from the API
+     */
     protected <T> T getObject(Class<T> aClass) throws InterfaceException {
         try {
             return restTemplate.getForObject(url, aClass);
@@ -26,6 +34,14 @@ public abstract class RestAPIController {
         }
     }
 
+    /**
+     * Updates an object on the external API using HTTP PATCH method.
+     *
+     * @param object the object to update
+     * @param aClass the class type of the object
+     * @param <T>    the type of the object
+     * @throws InterfaceException if an error occurs while posting data to the API
+     */
     protected <T> void patchObject(Object object, Class<T> aClass) throws InterfaceException {
         try {
             setPatchConfig();
@@ -35,6 +51,9 @@ public abstract class RestAPIController {
         }
     }
 
+    /**
+     * Configures the HTTP PATCH request with timeout settings.
+     */
     private void setPatchConfig(){
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         factory.setConnectTimeout(TIMEOUT);
@@ -42,5 +61,10 @@ public abstract class RestAPIController {
         restTemplate.setRequestFactory(factory);
     }
 
+    /**
+     * Abstract method to be implemented by subclasses to provide the name or identifier of the API.
+     *
+     * @return the name or identifier of the API
+     */
     protected abstract String apiName();
 }

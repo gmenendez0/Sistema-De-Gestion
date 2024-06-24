@@ -18,6 +18,11 @@ public class ClientController extends Controller{
         this.clientService = clientService;
     }
 
+    /**
+     * Retrieves all clients.
+     *
+     * @return a ResponseEntity containing a list of clients
+     */
     @GetMapping
     public ResponseEntity<?> getClients(){
         try {
