@@ -39,6 +39,7 @@ public class VersionController extends Controller{
     }
 
     @GetMapping("/{id}/tickets")
+    @Deprecated
     public ResponseEntity<?> getVersionsTickets(@PathVariable Long id){
         try {
             Collection<GetTicketDTO> tickets = versionService.getTicketsByVersion(id);
