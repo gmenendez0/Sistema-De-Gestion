@@ -3,13 +3,12 @@ package com.example.soporte.services.notification;
 import com.example.soporte.externalAPI.ProjectsModuleRestAPIControllerNotifier;
 import com.example.soporte.services.notification.notifications.TicketTaskNotification;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @Component
 public class TicketNotificationService extends NotificationService{
     public TicketNotificationService(){
-        super(new ProjectsModuleRestAPIControllerNotifier("")); //TODO AGREGAR URL
+        super(new ProjectsModuleRestAPIControllerNotifier("https://projects-backend-am35.onrender.com/tasks/associations/update"));
     }
 
     public void notifyTicketTask(Long ticketId, List<Long> downList, List<Long> upList){

@@ -26,6 +26,7 @@ dependencies {
 	implementation 'org.glassfish:jakarta.el:4.0.2'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1'
 	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -36,7 +37,6 @@ dependencies {
 	testImplementation("io.cucumber:cucumber-spring:7.3.1")
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-
 }
 
 tasks.named('test') {
