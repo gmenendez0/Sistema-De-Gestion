@@ -41,7 +41,7 @@ public class Ticket {
     @JsonManagedReference //
     private Version version;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Long> tasks = new ArrayList<>();
 
     @JsonIgnore

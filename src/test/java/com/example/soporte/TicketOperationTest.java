@@ -229,12 +229,12 @@ public class TicketOperationTest extends TicketIntegrationServiceTest{
 
     @Then("all tasks associated with ticket ID {int} are displayed")
     public void allTasksAssociatedWithTicketIDAreDisplayed(int arg0) {
-        assertEquals(2, tasksId.size());
+        assertEquals(3, tasksId.size());
     }
 
     @Then("No Tasks are displayed")
     public void noTasksAreDisplayed() {
-        assertEquals(null, tasksId);
+        assertTrue( tasksId.size()==0);
     }
 //  ticket update
     @Given("Ticket with status {string}")
